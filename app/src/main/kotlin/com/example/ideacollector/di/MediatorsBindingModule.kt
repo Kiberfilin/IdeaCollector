@@ -14,10 +14,10 @@ interface MediatorsBindingModule {
     @Binds
     @IntoMap
     @ClassKey(HomeScreenMediator::class)
-    fun bindMediator(mediator: HomeScreenMediatorImpl): Any
+    fun bindHomeScreenMediator(mediator: HomeScreenMediatorImpl): Any
 
     @Binds
     @IntoMap
     @ClassKey(SettingsScreenMediator::class)
-    fun bindMediator(mediator: SettingsScreenMediatorImpl)
+    fun bindSettingsScreenMediator(mediator: SettingsScreenMediatorImpl): Any
 }
