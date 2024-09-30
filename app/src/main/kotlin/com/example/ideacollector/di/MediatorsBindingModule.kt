@@ -11,13 +11,13 @@ import dagger.multibindings.IntoMap
 
 @Module
 interface MediatorsBindingModule {
-    @Binds
-    @IntoMap
-    @ClassKey(HomeScreenMediator::class)
-    fun bindMediator(mediator: HomeScreenMediatorImpl): Any
+//    @Binds
+//    @IntoMap
+//    @ClassKey(HomeScreenMediator::class)
+//    fun bindMediator(mediator: HomeScreenMediatorImpl)
 
-    @Binds
-    @IntoMap
-    @ClassKey(SettingsScreenMediator::class)
-    fun bindMediator(mediator: SettingsScreenMediatorImpl)
+//    @Binds
+//    @IntoMap
+//    @ClassKey(SettingsScreenMediator::class)
+//    fun bindMediator(mediator: SettingsScreenMediatorImpl)
 }
