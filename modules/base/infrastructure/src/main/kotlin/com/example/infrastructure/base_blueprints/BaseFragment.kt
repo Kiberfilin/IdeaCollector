@@ -39,11 +39,11 @@ abstract class BaseFragment
 
     protected fun createAndSetViewModel(javaClass: Class<VM>) {
         viewModel = ViewModelProvider(this, viewModelFactory)[javaClass]
-        @Suppress("UNCHECKED_CAST")
-        (viewModel as BaseViewModel<R>).bindRouter(router)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        @Suppress("UNCHECKED_CAST")
+        (viewModel as BaseViewModel<R>).bindRouter(router)
         this.view.setProperViewModel(viewModel)
         super.onViewCreated(view, savedInstanceState)
     }
