@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "com.example.home_screen_impl"
+    namespace = "com.example.infrastructure"
     compileSdk = 34
 
     defaultConfig {
@@ -24,7 +23,7 @@ android {
             )
         }
     }
-    buildFeatures {
+    buildFeatures{
         viewBinding = true
     }
     compileOptions {
@@ -49,14 +48,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //Dagger
-    kapt(libs.dagger.compiler)
     implementation(libs.dagger)
     //Navigation
     implementation(libs.navigation.fragment)
-
-    implementation(project(":modules:features:home_screen:home_screen_api"))
-    implementation(project(":modules:core:core_api"))
-    implementation(project(":modules:base:ui_kit"))
-    implementation(project(":modules:base:infrastructure"))
-    implementation(project(":modules:features:settings:settings_api"))
 }

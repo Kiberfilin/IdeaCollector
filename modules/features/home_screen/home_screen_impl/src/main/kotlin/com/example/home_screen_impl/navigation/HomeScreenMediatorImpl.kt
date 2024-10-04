@@ -1,7 +1,8 @@
-package com.example.home_screen_impl
+package com.example.home_screen_impl.navigation
 
 import androidx.navigation.NavController
 import com.example.home_screen_api.HomeScreenMediator
+import com.example.home_screen_impl.R
 import javax.inject.Inject
 
 class HomeScreenMediatorImpl @Inject constructor(): HomeScreenMediator {

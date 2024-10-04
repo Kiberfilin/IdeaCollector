@@ -4,38 +4,55 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_api.contracts.AppWithFacade
+import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.di.HomeScreenComponent
-import com.example.settings_api.SettingsScreenMediator
+import com.example.home_screen_impl.navigation.HomeScreenRouter
+import com.example.home_screen_impl.presentation.HomeScreenView
+import com.example.home_screen_impl.presentation.HomeScreenViewFactory
+import com.example.home_screen_impl.presentation.HomeScreenViewModel
+import com.example.home_screen_impl.presentation.HomeScreenViewModelFactory
+import com.example.infrastructure.base_blueprints.BaseFragment
 import javax.inject.Inject
 
-class HomeScreenFragment : Fragment() {
+class HomeScreenFragment : BaseFragment<
+        FragmentHomeScreenBinding,
+        HomeScreenRouter,
+        HomeScreenViewModel,
+        HomeScreenViewModelFactory,
+        HomeScreenView>() {
+    override fun daggerInit() =
+        HomeScreenComponent.makeHomeScreenComponent(
+            (requireActivity().application as AppWithFacade).getFacade(),
+            findNavController(),
+            lifecycle
+        ).inject(this)
+
     @Inject
-    lateinit var settingsScreenMediator: SettingsScreenMediator
+    override lateinit var viewModelFactory: HomeScreenViewModelFactory
+
+    @Inject
+    override lateinit var router: HomeScreenRouter
+
+    @Inject
+    lateinit var viewFactory: HomeScreenViewFactory
+    override lateinit var view: HomeScreenView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        HomeScreenComponent.create((requireActivity().application as AppWithFacade).getFacade())
-            .inject(this)
+        createAndSetViewModel(HomeScreenViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_screen, container, false)
+    ): View {
+        initViewBinding(FragmentHomeScreenBinding.inflate(inflater, container, false))
+        view = viewFactory.create(binding)
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<TextView>(R.id.textView).setOnClickListener {
-            settingsScreenMediator.openSettingsScreen(findNavController())
-        }
-        super.onViewCreated(view, savedInstanceState)
-    }
     companion object {
         fun newInstance() = HomeScreenFragment()
     }
