@@ -40,6 +40,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //Dagger
+    implementation(libs.dagger)
 
     api(project(":modules:core:core_api"))
     implementation (project(":modules:core:core_impl"))

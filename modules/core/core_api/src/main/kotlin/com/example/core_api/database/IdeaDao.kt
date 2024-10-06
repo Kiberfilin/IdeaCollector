@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface IdeaDao {
     @Query("SELECT * FROM ideas_table")
-    fun ideas(): Flow<List<IdeaEntity>>
+    fun ideas(): Flow<List<IdeaRoomEntity>>
 }

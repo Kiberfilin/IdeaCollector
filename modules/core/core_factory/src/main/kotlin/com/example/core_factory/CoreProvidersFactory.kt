@@ -1,11 +1,14 @@
 package com.example.core_factory
 
-import com.example.core_api.database.DatabaseProvider
 import com.example.core_api.contracts.AppProvider
-import com.example.core_impl.DaggerDatabaseComponent
+import com.example.core_api.contracts.UseCasesProvider
+import com.example.core_impl.clean.data.database.DaggerDatabaseComponent
+import com.example.core_impl.clean.domain.DaggerUseCasesComponent
 
 object CoreProvidersFactory {
-    fun createDatabaseBuilder(appProvider: AppProvider): DatabaseProvider {
-        return DaggerDatabaseComponent.builder().appProvider(appProvider).build()
+    fun createUsecasesProvider(appProvider: AppProvider): UseCasesProvider {
+        return DaggerUseCasesComponent.builder().databaseProvider(
+        DaggerDatabaseComponent.builder().appProvider(appProvider).build()
+        ).build()
     }
 }
