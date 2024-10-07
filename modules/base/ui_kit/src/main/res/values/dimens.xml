@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Divider -->
+    <dimen name="divider_height">24dp</dimen>
+    <dimen name="divider_white_bar_layout_height">5dp</dimen>
+    <dimen name="divider_white_bar_margin_bottom">1dp</dimen>
+    <dimen name="divider_white_bar_height">1dp</dimen>
+    <dimen name="divider_white_bar_width">18dp</dimen>
+</resources>

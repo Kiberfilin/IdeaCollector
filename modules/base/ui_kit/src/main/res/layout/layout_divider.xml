@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/divider_height"
+    android:background="@color/divider_background_color">
+
+    <LinearLayout
+        android:layout_width="18dp"
+        android:layout_height="@dimen/divider_white_bar_layout_height"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_white_bar_height"
+            android:layout_marginBottom="@dimen/divider_white_bar_margin_bottom"
+            android:background="@color/white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_white_bar_height"
+            android:layout_marginBottom="@dimen/divider_white_bar_margin_bottom"
+            android:background="@color/white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_white_bar_height"
+            android:background="@color/white" />
+    </LinearLayout>
+</FrameLayout>
