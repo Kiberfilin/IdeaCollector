@@ -1,6 +1,6 @@
 package com.example.core_impl.clean.data
 
-import com.example.core_api.clean.data.RoomDataStore
+import com.example.core_api.clean.data.IdeasRepository
 import com.example.core_api.clean.domain.entities.IdeaEntity
 import com.example.core_api.clean.data.database.IdeaDao
 import com.example.core_api.clean.data.database.IdeaRoomEntity
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class RoomDataStoreImpl @Inject constructor(private val dao: IdeaDao) : RoomDataStore {
+class RoomIdeasRepository @Inject constructor(private val dao: IdeaDao) : IdeasRepository {
     override fun ideas(): Flow<List<IdeaEntity>> =
         dao.ideas().map { ideasFromRoom: List<IdeaRoomEntity> ->
             ideasFromRoom.map { ideaRoomEntity: IdeaRoomEntity ->

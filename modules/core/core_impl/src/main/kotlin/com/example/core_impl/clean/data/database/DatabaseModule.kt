@@ -2,11 +2,11 @@ package com.example.core_impl.clean.data.database
 
 import android.content.Context
 import androidx.room.Room
-import com.example.core_api.clean.data.RoomDataStore
+import com.example.core_api.clean.data.IdeasRepository
 import com.example.core_api.contracts.IdeasDatabaseContract
 import com.example.core_api.clean.data.database.IdeaDao
 import com.example.core_api.di.qualifier.Application
-import com.example.core_impl.clean.data.RoomDataStoreImpl
+import com.example.core_impl.clean.data.RoomIdeasRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,7 +19,7 @@ private const val IDEA_DATABASE_NAME = "IDEA_DATABASE"
 interface DatabaseModule {
     @Binds
     @Reusable
-    fun bindRoomDatastore(dataStore: RoomDataStoreImpl): RoomDataStore
+    fun bindRoomRepository(repository: RoomIdeasRepository): IdeasRepository
 
     companion object {
         @Provides
