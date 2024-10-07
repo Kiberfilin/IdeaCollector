@@ -1,7 +1,7 @@
 package com.example.core_impl.clean.data.database.converters
 
 import com.example.core_api.clean.domain.entities.IdeaEntity
-import com.example.core_api.database.IdeaRoomEntity
+import com.example.core_api.clean.data.database.IdeaRoomEntity
 
 object IdeaEntityConverter {
     fun convertFromDbToDomain(roomEntity: IdeaRoomEntity): IdeaEntity =

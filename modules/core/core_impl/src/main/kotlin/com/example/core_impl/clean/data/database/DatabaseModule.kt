@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.core_api.clean.data.RoomDataStore
 import com.example.core_api.contracts.IdeasDatabaseContract
-import com.example.core_api.database.IdeaDao
+import com.example.core_api.clean.data.database.IdeaDao
 import com.example.core_api.di.qualifier.Application
 import com.example.core_impl.clean.data.RoomDataStoreImpl
 import dagger.Binds

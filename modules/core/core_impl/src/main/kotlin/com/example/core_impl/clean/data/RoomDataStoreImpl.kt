@@ -2,8 +2,8 @@ package com.example.core_impl.clean.data
 
 import com.example.core_api.clean.data.RoomDataStore
 import com.example.core_api.clean.domain.entities.IdeaEntity
-import com.example.core_api.database.IdeaDao
-import com.example.core_api.database.IdeaRoomEntity
+import com.example.core_api.clean.data.database.IdeaDao
+import com.example.core_api.clean.data.database.IdeaRoomEntity
 import com.example.core_impl.clean.data.database.converters.IdeaEntityConverter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

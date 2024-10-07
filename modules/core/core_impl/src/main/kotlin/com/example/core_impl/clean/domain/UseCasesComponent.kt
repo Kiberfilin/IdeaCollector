@@ -1,7 +1,7 @@
 package com.example.core_impl.clean.domain
 
 import com.example.core_api.contracts.UseCasesProvider
-import com.example.core_api.database.DatabaseProvider
+import com.example.core_api.clean.data.database.DatabaseProvider
 import dagger.Component
 import javax.inject.Singleton
 

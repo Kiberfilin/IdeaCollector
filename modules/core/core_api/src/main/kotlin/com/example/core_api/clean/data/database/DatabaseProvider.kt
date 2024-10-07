@@ -1,4 +1,4 @@
-package com.example.core_api.database
+package com.example.core_api.clean.data.database
 
 import com.example.core_api.clean.data.RoomDataStore
 import com.example.core_api.contracts.IdeasDatabaseContract

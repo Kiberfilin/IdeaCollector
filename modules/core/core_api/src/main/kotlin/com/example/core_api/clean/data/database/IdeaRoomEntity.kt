@@ -1,4 +1,4 @@
-package com.example.core_api.database
+package com.example.core_api.clean.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
