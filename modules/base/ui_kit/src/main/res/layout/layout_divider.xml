@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/divider_height"
-    android:background="@color/divider_background_color">
+    android:background="@drawable/divider_background">
 
     <LinearLayout
         android:layout_width="18dp"

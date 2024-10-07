@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:bottom="@dimen/divider_border_width_bottom">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="@dimen/divider_border_width"
+                android:color="@color/divider_border_color" />
+            <solid android:color="@color/divider_background_color" />
+        </shape>
+    </item>
+</layer-list>
