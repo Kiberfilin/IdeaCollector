@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.flowWithLifecycle
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.infrastructure.mvvm_blueprints.BaseView
 import dagger.assisted.Assisted
@@ -23,12 +24,14 @@ class HomeScreenView @AssistedInject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        lifecycle.coroutineScope.launch {
-            viewModel.getAllIdeas().collect {
-                Log.i("getAllIdeas()", it.toString())
-            }
-        }
         super.onStart(owner)
+        lifecycle.coroutineScope.launch {
+            viewModel.ideas()
+                .flowWithLifecycle(lifecycle = lifecycle, minActiveState = Lifecycle.State.STARTED)
+                .collect {
+                    Log.i("viewModel.ideas()", it.toString())
+                }
+        }
     }
 }
 
