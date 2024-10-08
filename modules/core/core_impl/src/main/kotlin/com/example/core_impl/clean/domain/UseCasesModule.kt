@@ -1,12 +1,12 @@
 package com.example.core_impl.clean.domain
 
-import com.example.core_api.clean.domain.usecases.GetAllIdeasInteractor
-import com.example.core_impl.clean.domain.usecases.GetAllIdeasInteractorImpl
+import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
+import com.example.core_impl.clean.domain.usecases.GetAllIdeasInteractor
 import dagger.Binds
 import dagger.Module
 
 @Module
 interface UseCasesModule {
     @Binds
-    fun bindGetAllIdeasInteractor(interactor: GetAllIdeasInteractorImpl): GetAllIdeasInteractor
+    fun bindGetAllIdeasInputPort(interactor: GetAllIdeasInteractor): GetAllIdeasInputPort
 }

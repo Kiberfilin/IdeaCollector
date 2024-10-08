@@ -2,7 +2,7 @@ package com.example.core_impl.clean.data.database
 
 import android.content.Context
 import androidx.room.Room
-import com.example.core_api.clean.data.IdeasRepository
+import com.example.core_api.clean.domain.boundaries.repository.RepositoryInputPort
 import com.example.core_api.contracts.IdeasDatabaseContract
 import com.example.core_api.clean.data.database.IdeaDao
 import com.example.core_api.di.qualifier.Application
@@ -19,7 +19,7 @@ private const val IDEA_DATABASE_NAME = "IDEA_DATABASE"
 interface DatabaseModule {
     @Binds
     @Reusable
-    fun bindRoomRepository(repository: RoomIdeasRepository): IdeasRepository
+    fun bindRoomRepository(repository: RoomIdeasRepository): RepositoryInputPort
 
     companion object {
         @Provides
