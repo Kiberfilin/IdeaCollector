@@ -8,4 +8,5 @@
     <color name="priority_color_red">#D60100</color>
     <color name="priority_color_yellow">#D0B202</color>
     <color name="priority_color_green">#0D9F34</color>
+    <color name="approve_color">#000000</color>
 </resources>
