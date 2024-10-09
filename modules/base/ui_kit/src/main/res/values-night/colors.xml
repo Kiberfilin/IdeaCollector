@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="divider_background_color">#7F7F7F</color>
     <color name="divider_border_color">#686868</color>
+    <color name="divider_bars_color">#D8D8D8</color>
+    <color name="priority_color_red">#D60100</color>
+    <color name="priority_color_yellow">#D0B202</color>
+    <color name="priority_color_green">#0D9F34</color>
 </resources>
