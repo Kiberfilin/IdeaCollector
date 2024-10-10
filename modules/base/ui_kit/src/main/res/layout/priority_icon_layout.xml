@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/priorityIconContainer"
+    android:layout_width="@dimen/priority_icon_side_length"
+    android:layout_height="@dimen/priority_icon_side_length"
+    tools:background="@color/priority_color_red">
+
+    <ImageView
+        android:id="@+id/priorityVectorDrawable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/vector_white_idea_lamp" />
+
+    <ImageView
+        android:id="@+id/rightBlueCorner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:background="@drawable/vector_right_blue_corner"
+        android:visibility="invisible" />
+
+</FrameLayout>

@@ -1,17 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
     tools:context=".HomeScreenFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_gravity="center"
+    <FrameLayout
+        android:id="@+id/homeScreenHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_screen_header_height"
+        android:background="@color/home_screen_header_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/homeScreenDivider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/homeScreenHeader"
+        app:layout_constraintStart_toStartOf="@+id/homeScreenHeader"
+        app:layout_constraintTop_toBottomOf="@+id/homeScreenHeader">
+
+        <include layout="@layout/layout_divider" />
+    </FrameLayout>
+
+    <com.example.ui_kit.PriorityIcon
+        android:id="@+id/ideaPriorityIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home screen" />
+        android:layout_marginStart="@dimen/priority_icon_margin_start"
+        android:layout_marginTop="@dimen/priority_icon_margin_top"
+        app:layout_constraintStart_toStartOf="@id/homeScreenHeader"
+        app:layout_constraintTop_toTopOf="@id/homeScreenHeader" />
 
-</FrameLayout>
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color"
+        android:inputType="text"
+        android:layout_marginHorizontal="@dimen/home_screen_header_edit_text_margin_horizontal"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@+id/homeScreenHeader"
+        app:layout_constraintEnd_toStartOf="@+id/homeScreenHeaderActionButton"
+        app:layout_constraintStart_toEndOf="@+id/ideaPriorityIcon"
+        tools:text="safsfsfasf" />
+
+    <ImageButton
+        android:id="@+id/homeScreenHeaderActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/home_screen_header_action_button_padding_end"
+        android:background="@drawable/baseline_check"
+        android:backgroundTint="@color/approve_color"
+        app:layout_constraintBottom_toBottomOf="@+id/ideaPriorityIcon"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,4 +9,7 @@
     <color name="priority_color_yellow">#D0B202</color>
     <color name="priority_color_green">#0D9F34</color>
     <color name="approve_color">#000000</color>
+    <color name="text_color">#000000</color>
+    <color name="home_screen_header_color">#EBEBEB</color>
+    <color name="home_screen_surface_color">#EBEBEB</color>
 </resources>

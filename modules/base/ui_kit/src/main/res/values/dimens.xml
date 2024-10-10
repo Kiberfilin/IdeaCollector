@@ -8,4 +8,21 @@
     <dimen name="divider_white_bar_width">18dp</dimen>
     <dimen name="divider_border_width">1dp</dimen>
     <dimen name="divider_border_width_bottom">-1dp</dimen>
+    <!-- Priority icon -->
+    <dimen name="priority_icon_side_length">28dp</dimen>
+    <dimen name="priority_icon_margin_top">27dp</dimen>
+    <dimen name="priority_icon_margin_start">13dp</dimen>
+    <!-- HomeScreen header -->
+    <dimen name="home_screen_header_height">64dp</dimen>
+    <!-- HomeScreen header EditText -->
+    <dimen name="home_screen_header_edit_text_margin_horizontal">15dp</dimen>
+    <!-- HomeScreen header action button -->
+    <dimen name="home_screen_header_action_button_padding_end">13dp</dimen>
+    <!-- Idea recyclerview item -->
+    <dimen name="idea_recycler_view_item_padding_horizontal">13dp</dimen>
+    <dimen name="idea_recycler_view_item_padding_vertical">8dp</dimen>
+    <dimen name="idea_recycler_view_item_data_padding_bottom">8dp</dimen>
+    <dimen name="idea_recycler_view_item_idea_text_margin_top">5dp</dimen>
+    <dimen name="idea_recycler_view_item_idea_text_size">15sp</dimen>
+    <dimen name="idea_recycler_view_item_data_text_size">11sp</dimen>
 </resources>

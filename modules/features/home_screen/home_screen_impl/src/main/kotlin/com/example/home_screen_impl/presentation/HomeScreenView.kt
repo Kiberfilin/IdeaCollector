@@ -7,6 +7,7 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.flowWithLifecycle
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.infrastructure.mvvm_blueprints.BaseView
+import com.example.ui_kit.PriorityIcon
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -18,8 +19,12 @@ class HomeScreenView @AssistedInject constructor(
 ) : BaseView<FragmentHomeScreenBinding, HomeScreenViewModel>(viewBinding, lifecycle) {
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
-        viewBinding.textView.setOnClickListener {
+        /*viewBinding.textView.setOnClickListener {
             viewModel.handleOnTextClick()
+        }*/
+        viewBinding.ideaPriorityIcon.apply {
+            setPriority(PriorityIcon.PRIORITY_YELLOW)
+            setBlueCornerVisible(true)
         }
     }
 
