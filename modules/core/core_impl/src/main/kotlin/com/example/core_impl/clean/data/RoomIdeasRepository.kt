@@ -16,4 +16,13 @@ class RoomIdeasRepository @Inject constructor(private val dao: IdeaDao) : IdeasR
                 IdeaEntityConverter.convertFromDbToDomain(ideaRoomEntity)
             }
         }
+
+    override suspend fun insertIdea(ideaEntity: IdeaEntity) =
+        dao.insertIdea(IdeaEntityConverter.convertFromDomainToDb(ideaEntity))
+
+    override suspend fun deleteIdea(ideaEntity: IdeaEntity) =
+        dao.deleteIdea(IdeaEntityConverter.convertFromDomainToDb(ideaEntity))
+
+    override suspend fun updateIdea(ideaEntity: IdeaEntity) =
+        dao.updateIdea(IdeaEntityConverter.convertFromDomainToDb(ideaEntity))
 }

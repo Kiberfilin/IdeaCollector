@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="homeScreenFragment" type="id"/>
+    <item name="homeScreenFragment" type="id" />
+    <item name="editItem" type="id" />
+    <item name="deleteItem" type="id" />
 </resources>

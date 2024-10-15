@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "ideas_table")
 data class IdeaRoomEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val ideaText: String,
     val date: Long,
     val priority: Int

@@ -23,6 +23,6 @@
     <dimen name="idea_recycler_view_item_padding_vertical">8dp</dimen>
     <dimen name="idea_recycler_view_item_data_padding_bottom">8dp</dimen>
     <dimen name="idea_recycler_view_item_idea_text_margin_top">5dp</dimen>
-    <dimen name="idea_recycler_view_item_idea_text_size">15sp</dimen>
-    <dimen name="idea_recycler_view_item_data_text_size">11sp</dimen>
+    <dimen name="idea_recycler_view_item_idea_text_size">14sp</dimen>
+    <dimen name="idea_recycler_view_item_data_text_size">10sp</dimen>
 </resources>

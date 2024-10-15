@@ -26,7 +26,7 @@
         <include layout="@layout/layout_divider" />
     </FrameLayout>
 
-    <com.example.ui_kit.PriorityIcon
+    <com.example.ui_kit.custom_views.PriorityIcon
         android:id="@+id/ideaPriorityIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,12 +36,13 @@
         app:layout_constraintTop_toTopOf="@id/homeScreenHeader" />
 
     <EditText
+        android:id="@+id/ideaEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_color"
-        android:inputType="text"
         android:layout_marginHorizontal="@dimen/home_screen_header_edit_text_margin_horizontal"
+        android:inputType="text"
         android:maxLines="1"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toBottomOf="@+id/homeScreenHeader"
         app:layout_constraintEnd_toStartOf="@+id/homeScreenHeaderActionButton"
         app:layout_constraintStart_toEndOf="@+id/ideaPriorityIcon"
@@ -56,4 +57,14 @@
         android:backgroundTint="@color/approve_color"
         app:layout_constraintBottom_toBottomOf="@+id/ideaPriorityIcon"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ideasRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeScreenDivider"
+        tools:listitem="@layout/layout_idea_list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,9 @@
 package com.example.home_screen_impl
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
@@ -51,6 +53,14 @@ class HomeScreenFragment : BaseFragment<
         initViewBinding(FragmentHomeScreenBinding.inflate(inflater, container, false))
         view = viewFactory.create(binding)
         return binding.root
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.editItem   -> view.onContextMenuEditItemClick()
+            R.id.deleteItem -> view.onContextMenuDeleteItemClick()
+            else            -> super.onContextItemSelected(item)
+        }
     }
 
     companion object {

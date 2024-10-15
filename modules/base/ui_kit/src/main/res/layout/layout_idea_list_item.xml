@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/home_screen_surface_color">
 
-    <com.example.ui_kit.PriorityIcon
+    <com.example.ui_kit.custom_views.PriorityIcon
         android:id="@+id/priorityIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/text_color"
         android:textSize="@dimen/idea_recycler_view_item_idea_text_size"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/priorityIcon"
         app:layout_constraintTop_toTopOf="parent"

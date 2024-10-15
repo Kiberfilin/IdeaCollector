@@ -1,10 +1,11 @@
-package com.example.ui_kit
+package com.example.ui_kit.custom_views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.example.ui_kit.R
 
 class PriorityIcon : FrameLayout {
     private lateinit var container: FrameLayout
@@ -37,12 +38,6 @@ class PriorityIcon : FrameLayout {
         container = findViewById(R.id.priorityIconContainer)
         rightBlueCorner =
             findViewById<ImageView?>(R.id.rightBlueCorner).apply { visibility = INVISIBLE }
-    }
-
-    companion object {
-        const val PRIORITY_RED: Int = 0
-        const val PRIORITY_YELLOW: Int = 1
-        const val PRIORITY_GREEN: Int = 2
     }
 
     fun setPriority(priority: Int) {
