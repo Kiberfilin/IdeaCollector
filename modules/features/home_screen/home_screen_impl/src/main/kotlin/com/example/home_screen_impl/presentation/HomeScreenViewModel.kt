@@ -6,10 +6,9 @@ import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPo
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.UpdateIdeaInputPort
 import com.example.core_api.clean.domain.entities.IdeaEntity
+import com.example.core_api.clean.domain.entities.Priority
 import com.example.home_screen_impl.navigation.HomeScreenRouter
 import com.example.infrastructure.mvvm_blueprints.BaseViewModel
-import com.example.ui_kit.custom_views.PRIORITY_GREEN
-import com.example.ui_kit.custom_views.PRIORITY_RED
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,12 +22,9 @@ class HomeScreenViewModel(
     private val deleteIdea: DeleteIdeaInputPort,
     private val updateIdea: UpdateIdeaInputPort
 ) : BaseViewModel<HomeScreenRouter>() {
-    companion object {
-        const val EMPTY_STRING: String = ""
-    }
 
     private val initialIdeaEntity =
-        IdeaEntity(id = 0, ideaText = EMPTY_STRING, date = currentDate(), PRIORITY_RED)
+        IdeaEntity(id = 0, ideaText = EMPTY_STRING, date = currentDate(), Priority.HIGH)
 
     //fun handleOnTextClick() = router?.navigateToSettingsScreen()
     suspend fun ideas(): StateFlow<List<IdeaEntity>> = getIdeas.execute().stateIn(viewModelScope)
@@ -42,9 +38,11 @@ class HomeScreenViewModel(
         }
     }
 
-    private fun incrementPriority(priority: Int): Int = when (priority) {
-        PRIORITY_GREEN -> PRIORITY_RED
-        else           -> priority + 1
+    private fun incrementPriority(priority: Priority): Priority = when (priority) {
+        Priority.HIGH   -> Priority.MEDIUM
+        Priority.MEDIUM -> Priority.LOW
+        Priority.LOW    -> Priority.HIGH
+        Priority.NONE   -> throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
     }
 
     fun onIdeaTextChanged(ideaText: String) {
@@ -52,14 +50,17 @@ class HomeScreenViewModel(
     }
 
     fun onActionButtonClick() {
-        viewModelScope.launch {
-            val idea: IdeaEntity = _homeScreenHeaderState.value.copy(date = currentDate())
-            if (idea.id == 0L) {
-                insertIdea.execute(idea)
-            } else {
-                updateIdea.execute(idea)
+        val tmpEntity = _homeScreenHeaderState.value
+        if (tmpEntity.ideaText != EMPTY_STRING) {
+            viewModelScope.launch {
+                val idea: IdeaEntity = tmpEntity.copy(date = currentDate())
+                if (idea.id == 0L) {
+                    insertIdea.execute(idea)
+                } else {
+                    updateIdea.execute(idea)
+                }
+                _homeScreenHeaderState.value = initialIdeaEntity
             }
-            _homeScreenHeaderState.value = initialIdeaEntity
         }
     }
 
@@ -71,4 +72,8 @@ class HomeScreenViewModel(
     }
 
     private fun currentDate(): Long = Calendar.getInstance().timeInMillis
+
+    companion object {
+        const val EMPTY_STRING: String = ""
+    }
 }

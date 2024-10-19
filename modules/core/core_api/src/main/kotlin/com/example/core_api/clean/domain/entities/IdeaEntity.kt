@@ -4,5 +4,5 @@ data class IdeaEntity(
     val id: Long,
     val ideaText: String,
     val date: Long,
-    val priority: Int
+    val priority: Priority
 )

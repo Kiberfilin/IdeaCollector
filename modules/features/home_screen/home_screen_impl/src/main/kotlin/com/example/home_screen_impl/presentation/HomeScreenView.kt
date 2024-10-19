@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_api.clean.domain.entities.IdeaEntity
+import com.example.core_api.clean.domain.entities.Priority
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.presentation.recyclerview.IdeasRecyclerViewAdapter
 import com.example.infrastructure.mvvm_blueprints.BaseView
-import com.example.ui_kit.custom_views.PRIORITY_GREEN
-import com.example.ui_kit.custom_views.PRIORITY_RED
 import com.example.ui_kit.helpers.clearFocusAndHideKeyboard
 import com.example.ui_kit.helpers.requestFocusAndShowKeyboard
 import dagger.assisted.Assisted
@@ -82,9 +81,15 @@ class HomeScreenView @AssistedInject constructor(
         }
     }
 
-    private fun setPriority(priority: Int) {
-        if (priority in PRIORITY_RED..PRIORITY_GREEN) {
-            viewBinding.ideaPriorityIcon.setPriority(priority)
+    private fun setPriority(priority: Priority) {
+        when (priority) {
+            Priority.LOW, Priority.MEDIUM, Priority.HIGH -> {
+                viewBinding.ideaPriorityIcon.setPriority(priority.code)
+            }
+
+            Priority.NONE                                -> {
+                throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
+            }
         }
     }
 

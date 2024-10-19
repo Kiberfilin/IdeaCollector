@@ -29,7 +29,7 @@ abstract class BaseView<VB : ViewBinding, VM : ViewModel>(
         lifecycle.removeObserver(this)
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
+    override fun onStop(owner: LifecycleOwner) {
         removeObserver()
         super.onDestroy(owner)
     }

@@ -15,9 +15,6 @@ import com.example.ui_kit.databinding.LayoutIdeaListItemBinding
 
 class IdeasRecyclerViewAdapter :
     ListAdapter<IdeaEntity, IdeasRecyclerViewAdapter.IdeasRecyclerViewViewHolder>(IdeaComparator()) {
-    companion object {
-        private var positionOfIdeaFromContextMenu: Int = RecyclerView.NO_POSITION
-    }
 
     fun getCurrentIdeaFromContextMenu(): IdeaEntity = currentList[positionOfIdeaFromContextMenu]
     override fun onCreateViewHolder(
@@ -44,7 +41,7 @@ class IdeasRecyclerViewAdapter :
         fun bind(idea: IdeaEntity) {
             binding.apply {
                 priorityIcon.setBlueCornerVisible(false)
-                priorityIcon.setPriority(idea.priority)
+                priorityIcon.setPriority(idea.priority.code)
                 ideaText.text = idea.ideaText
                 ideaDate.text =
                     DateFormatConverterForRecyclerView.convertFromMillsToString(idea.date)
@@ -67,9 +64,13 @@ class IdeasRecyclerViewAdapter :
 
     class IdeaComparator : DiffUtil.ItemCallback<IdeaEntity>() {
         override fun areItemsTheSame(oldItem: IdeaEntity, newItem: IdeaEntity): Boolean =
-            oldItem === newItem
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: IdeaEntity, newItem: IdeaEntity): Boolean =
             oldItem == newItem
+    }
+
+    companion object {
+        private var positionOfIdeaFromContextMenu: Int = RecyclerView.NO_POSITION
     }
 }
