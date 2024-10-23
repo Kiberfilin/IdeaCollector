@@ -1,7 +1,6 @@
 package com.example.home_screen_impl
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -15,7 +14,7 @@ import com.example.home_screen_impl.presentation.HomeScreenView
 import com.example.home_screen_impl.presentation.HomeScreenViewFactory
 import com.example.home_screen_impl.presentation.HomeScreenViewModel
 import com.example.home_screen_impl.presentation.HomeScreenViewModelFactory
-import com.example.infrastructure.base_blueprints.BaseFragment
+import com.example.infrastructure.base_blueprints.fragment.BaseFragment
 import javax.inject.Inject
 
 class HomeScreenFragment : BaseFragment<

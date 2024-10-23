@@ -1,19 +1,43 @@
 package com.example.settings_impl
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.core_api.contracts.AppWithFacade
+import com.example.infrastructure.base_blueprints.preference_fragment.BasePreferenceFragment
+import com.example.settings_impl.di.SettingsScreenComponent
+import com.example.settings_impl.navigation.SettingsScreenRouter
+import com.example.settings_impl.presentation.SettingsScreenView
+import com.example.settings_impl.presentation.SettingsScreenViewModel
+import com.example.settings_impl.presentation.SettingsScreenViewModelFactory
+import javax.inject.Inject
 
-class SettingsScreenFragment : Fragment() {
+class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
+        SettingsScreenViewModel,
+        SettingsScreenViewModelFactory,
+        SettingsScreenView>() {
+    override fun daggerInit() = SettingsScreenComponent
+        .madeSettingsScreenComponent(
+            (requireActivity().application as AppWithFacade).getFacade(),
+            findNavController(),
+            lifecycle
+        ).inject(this)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_screen, container, false)
+    @Inject
+    override lateinit var viewModelFactory: SettingsScreenViewModelFactory
+
+    @Inject
+    override lateinit var router: SettingsScreenRouter
+
+    @Inject
+    override lateinit var view: SettingsScreenView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        createAndSetViewModel(SettingsScreenViewModel::class.java)
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        TODO("Not yet implemented")
     }
 
     companion object {

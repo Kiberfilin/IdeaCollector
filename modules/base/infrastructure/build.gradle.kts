@@ -51,4 +51,6 @@ dependencies {
     implementation(libs.dagger)
     //Navigation
     implementation(libs.navigation.fragment)
+    //Preference
+    implementation(libs.androidx.preference.ktx)
 }

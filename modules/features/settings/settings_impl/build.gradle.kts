@@ -41,13 +41,20 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //Lifecycle
+    implementation(libs.androidx.lifecycle.common.java8)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //Dagger
     kapt(libs.dagger.compiler)
     implementation(libs.dagger)
     //Navigation
     implementation(libs.navigation.fragment)
+    //Preference
+    implementation(libs.androidx.preference.ktx)
 
     implementation (project(":modules:features:settings:settings_api"))
     implementation (project(":modules:core:core_api"))
     implementation (project(":modules:base:ui_kit"))
+    implementation(project(":modules:base:infrastructure"))
 }

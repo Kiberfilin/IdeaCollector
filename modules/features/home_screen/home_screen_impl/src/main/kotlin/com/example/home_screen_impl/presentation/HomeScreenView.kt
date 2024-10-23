@@ -12,7 +12,7 @@ import com.example.core_api.clean.domain.entities.IdeaEntity
 import com.example.core_api.clean.domain.entities.Priority
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.presentation.recyclerview.IdeasRecyclerViewAdapter
-import com.example.infrastructure.mvvm_blueprints.BaseView
+import com.example.infrastructure.mvvm_blueprints.fragment.BaseFragmentView
 import com.example.ui_kit.helpers.clearFocusAndHideKeyboard
 import com.example.ui_kit.helpers.requestFocusAndShowKeyboard
 import dagger.assisted.Assisted
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class HomeScreenView @AssistedInject constructor(
     @Assisted viewBinding: FragmentHomeScreenBinding,
     lifecycle: Lifecycle
-) : BaseView<FragmentHomeScreenBinding, HomeScreenViewModel>(viewBinding, lifecycle) {
+) : BaseFragmentView<FragmentHomeScreenBinding, HomeScreenViewModel>(viewBinding, lifecycle) {
     private val ideasRecyclerViewAdapter = IdeasRecyclerViewAdapter()
 
     private fun configureScreen() {
