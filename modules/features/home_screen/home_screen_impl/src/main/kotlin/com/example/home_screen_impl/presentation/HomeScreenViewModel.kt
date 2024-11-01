@@ -20,13 +20,13 @@ class HomeScreenViewModel(
     private val getIdeas: GetAllIdeasInputPort,
     private val insertIdea: InsertIdeaInputPort,
     private val deleteIdea: DeleteIdeaInputPort,
-    private val updateIdea: UpdateIdeaInputPort
+    private val updateIdea: UpdateIdeaInputPort,
 ) : BaseViewModel<HomeScreenRouter>() {
 
     private val initialIdeaEntity =
         IdeaEntity(id = 0, ideaText = EMPTY_STRING, date = currentDate(), Priority.HIGH)
 
-    //fun handleOnTextClick() = router?.navigateToSettingsScreen()
+    fun onLongActionButtonClick(): Boolean = router?.navigateToSettingsScreen() != null
     suspend fun ideas(): StateFlow<List<IdeaEntity>> = getIdeas.execute().stateIn(viewModelScope)
     private val _homeScreenHeaderState: MutableStateFlow<IdeaEntity> =
         MutableStateFlow(initialIdeaEntity)

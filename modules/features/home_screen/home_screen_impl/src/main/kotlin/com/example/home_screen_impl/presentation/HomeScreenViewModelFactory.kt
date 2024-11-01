@@ -12,7 +12,7 @@ class HomeScreenViewModelFactory @Inject constructor(
     private val getAllIdeas: GetAllIdeasInputPort,
     private val insertIdea: InsertIdeaInputPort,
     private val deleteIdea: DeleteIdeaInputPort,
-    private val updateIdea: UpdateIdeaInputPort
+    private val updateIdea: UpdateIdeaInputPort,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
@@ -22,7 +22,7 @@ class HomeScreenViewModelFactory @Inject constructor(
                     getAllIdeas,
                     insertIdea,
                     deleteIdea,
-                    updateIdea
+                    updateIdea,
                 ) as T
 
             else                                                         -> throw IllegalArgumentException(

@@ -55,6 +55,8 @@ dependencies {
     //Coroutines
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.coroutines.android)
+    //Security
+    implementation(libs.security.crypto)
 
     api(project(":modules:core:core_api"))
 }

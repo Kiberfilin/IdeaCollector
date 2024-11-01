@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Home screen -->
     <!-- Divider -->
     <dimen name="divider_height">24dp</dimen>
     <dimen name="divider_white_bar_layout_height">5dp</dimen>
@@ -25,4 +26,12 @@
     <dimen name="idea_recycler_view_item_idea_text_margin_top">5dp</dimen>
     <dimen name="idea_recycler_view_item_idea_text_size">14sp</dimen>
     <dimen name="idea_recycler_view_item_data_text_size">10sp</dimen>
+    <!-- Settings screen -->
+    <!-- Password DialogProperty layaut -->
+    <dimen name="labels_horizontal_padding">8dp</dimen>
+    <dimen name="labels_vertical_padding">4dp</dimen>
+    <dimen name="password_and_confirmation_title_text_view_text_size">18sp</dimen>
+    <dimen name="password_and_confirmation_text_view_text_size">18sp</dimen>
+    <dimen name="password_and_confirmation_edit_text_size">18sp</dimen>
+
 </resources>

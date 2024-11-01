@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categoryPasswordSettingsTitle">Password settings</string>
+    <string name="enablePasswordTitle">Enable Password</string>
+    <string name="enablePasswordSummary">Enable Password access to the ideas</string>
+    <string name="passwordAndConfirmationTitle">New password and confirmation</string>
+    <string name="passwordAndConfirmationDialogMessage">New password and confirmation</string>
+    <string name="passwordAndConfirmationSetSummary">Password is SET!</string>
+    <string name="passwordAndConfirmationNotSetSummary">Password is not SET!</string>
+    <string name="sortTypeTitle">Sort type</string>
+    <string-array name="sortType">
+        <item>Priority</item>
+        <item>Date</item>
+    </string-array>
+    <string-array name="appTheme">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string name="passwordLabel">Password:</string>
+    <string name="passwordEditTextHint">Type your new password</string>
+    <string name="confirmationLabel">Confirm:</string>
+    <string name="confirmationEditTextHint">Confirm your new password</string>
+</resources>

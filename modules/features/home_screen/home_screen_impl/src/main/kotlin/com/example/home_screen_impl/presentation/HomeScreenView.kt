@@ -31,9 +31,14 @@ class HomeScreenView @AssistedInject constructor(
             setBlueCornerVisible(true)
             setOnClickListener { viewModel.onPriorityIconClick() }
         }
-        viewBinding.homeScreenHeaderActionButton.setOnClickListener {
-            viewModel.onActionButtonClick()
-            viewBinding.ideaEditText.clearFocusAndHideKeyboard()
+        viewBinding.homeScreenHeaderActionButton.apply {
+            setOnClickListener {
+                viewModel.onActionButtonClick()
+                viewBinding.ideaEditText.clearFocusAndHideKeyboard()
+            }
+            setOnLongClickListener {
+                viewModel.onLongActionButtonClick()
+            }
         }
         viewBinding.ideaEditText.addTextChangedListener {
             viewModel.onIdeaTextChanged(it.toString())
