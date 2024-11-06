@@ -57,6 +57,8 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    //Preference
+    implementation(libs.androidx.preference.ktx)
 
     implementation(project(":modules:core:core_factory"))
     implementation(project(":modules:base:ui_kit"))

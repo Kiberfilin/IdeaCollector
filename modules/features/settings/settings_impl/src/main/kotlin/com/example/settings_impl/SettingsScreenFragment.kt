@@ -19,6 +19,7 @@ import androidx.preference.MultiSelectListPreferenceDialogFragmentCompat
 import androidx.preference.Preference
 import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceCategory
+import com.example.core_api.constants.*
 import com.example.core_api.contracts.AppWithFacade
 import com.example.infrastructure.base_blueprints.preference_fragment.BasePreferenceFragment
 import com.example.settings_impl.di.SettingsScreenComponent
@@ -174,11 +175,6 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
     }
 
     companion object {
-        private const val CATEGORY_PASSWORD_SETTINGS_KEY: String = "categoryPasswordSettings"
-        private const val ENABLE_PASSWORD_KEY: String = "enablePassword"
-        private const val PASSWORD_AND_CONFIRMATION_KEY: String = "passwordAndConfirmation"
-        private const val SORT_TYPE_KEY: String = "sortType"
-        private const val THEME_KEY: String = "theme"
         private const val DIALOG_FRAGMENT_TAG: String =
             "androidx.preference.PreferenceFragment.DIALOG"
 

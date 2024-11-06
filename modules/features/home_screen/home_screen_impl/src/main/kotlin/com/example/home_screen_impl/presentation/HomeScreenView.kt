@@ -1,5 +1,7 @@
 package com.example.home_screen_impl.presentation
 
+import android.util.Log
+import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -12,6 +14,7 @@ import com.example.core_api.clean.domain.entities.IdeaEntity
 import com.example.core_api.clean.domain.entities.Priority
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.presentation.recyclerview.IdeasRecyclerViewAdapter
+import com.example.home_screen_impl.presentation.state.HomeScreenState
 import com.example.infrastructure.mvvm_blueprints.fragment.BaseFragmentView
 import com.example.ui_kit.helpers.clearFocusAndHideKeyboard
 import com.example.ui_kit.helpers.requestFocusAndShowKeyboard
@@ -27,6 +30,7 @@ class HomeScreenView @AssistedInject constructor(
     private val ideasRecyclerViewAdapter = IdeasRecyclerViewAdapter()
 
     private fun configureScreen() {
+        viewModel.onConfigureScreen()
         viewBinding.ideaPriorityIcon.apply {
             setBlueCornerVisible(true)
             setOnClickListener { viewModel.onPriorityIconClick() }
@@ -75,9 +79,31 @@ class HomeScreenView @AssistedInject constructor(
         }
     }
 
-    private fun renderHeaderState(ideaEntity: IdeaEntity) {
-        setPriority(ideaEntity.priority)
-        setIdeaText(ideaEntity.ideaText)
+    private fun renderHeaderState(state: HomeScreenState) {
+        Log.i("***",state.toString())
+        when (state) {
+            is HomeScreenState.Unlocked -> {
+                lockScreen(false)
+                setPriority(state.entity.priority)
+                setIdeaText(state.entity.ideaText)
+            }
+
+            HomeScreenState.Locked      -> lockScreen(true)
+        }
+    }
+
+    private fun lockScreen(lock: Boolean) {
+        viewBinding.apply {
+            ideaEditText.isEnabled = !lock
+            if (lock) {
+                ideaEditText.text.clear()
+                ideasRecyclerView.visibility = View.GONE
+                lockScreen.visibility = View.VISIBLE
+            } else {
+                ideasRecyclerView.visibility = View.VISIBLE
+                lockScreen.visibility = View.GONE
+            }
+        }
     }
 
     private fun setIdeaText(ideaText: String) {

@@ -5,6 +5,7 @@ import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPo
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.HashPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.IsPasswordEnabledInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.PersistPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.UpdateIdeaInputPort
 
@@ -16,4 +17,5 @@ interface UseCasesProvider {
     fun providePersistPasswordInputPort(): PersistPasswordInputPort
     fun provideGetPersistedPasswordInputPort(): GetPersistedPasswordInputPort
     fun provideHashPasswordInputPort(): HashPasswordInputPort
+    fun provideIsPasswordEnabledInputPort(): IsPasswordEnabledInputPort
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.IsPasswordEnabledInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.UpdateIdeaInputPort
 import javax.inject.Inject
 
@@ -13,6 +14,7 @@ class HomeScreenViewModelFactory @Inject constructor(
     private val insertIdea: InsertIdeaInputPort,
     private val deleteIdea: DeleteIdeaInputPort,
     private val updateIdea: UpdateIdeaInputPort,
+    private val isPasswordEnabledInputPort: IsPasswordEnabledInputPort,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
@@ -23,6 +25,7 @@ class HomeScreenViewModelFactory @Inject constructor(
                     insertIdea,
                     deleteIdea,
                     updateIdea,
+                    isPasswordEnabledInputPort,
                 ) as T
 
             else                                                         -> throw IllegalArgumentException(

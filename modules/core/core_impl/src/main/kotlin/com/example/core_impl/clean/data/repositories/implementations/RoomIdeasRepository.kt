@@ -1,4 +1,4 @@
-package com.example.core_impl.clean.data
+package com.example.core_impl.clean.data.repositories.implementations
 
 import com.example.core_api.clean.domain.boundaries.repository.IdeasRepositoryInputPort
 import com.example.core_api.clean.domain.entities.IdeaEntity
