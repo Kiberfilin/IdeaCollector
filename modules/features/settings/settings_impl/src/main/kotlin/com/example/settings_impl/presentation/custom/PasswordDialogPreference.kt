@@ -7,6 +7,7 @@ import com.example.settings_impl.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PasswordDialogPreference @JvmOverloads constructor(
     private val scope: CoroutineScope,
@@ -27,8 +28,12 @@ class PasswordDialogPreference @JvmOverloads constructor(
 
     var passwordText: String
         set(value) {
-            scope.launch(Dispatchers.IO) {
-                text = transformBlock.invoke(value)
+            scope.launch {
+                var hash: String
+                withContext(Dispatchers.Default) {
+                    hash = transformBlock.invoke(value)
+                }
+                text = hash
             }
         }
         get() = text.toString()
