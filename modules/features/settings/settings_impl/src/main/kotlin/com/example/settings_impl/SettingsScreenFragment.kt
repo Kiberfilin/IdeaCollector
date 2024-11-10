@@ -3,6 +3,7 @@ package com.example.settings_impl
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.preference.PreferenceManager
 import androidx.fragment.app.DialogFragment
@@ -73,14 +74,14 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             ).apply {
                 key = PASSWORD_AND_CONFIRMATION_KEY
                 title = resources.getString(R.string.passwordAndConfirmationTitle)
-                summaryProvider =
+                /*summaryProvider =
                     SummaryProvider { preference: PasswordDialogPreference ->
                         if (preference.text.isNullOrEmpty()) {
                             resources.getString(R.string.passwordAndConfirmationNotSetSummary)
                         } else {
                             resources.getString(R.string.passwordAndConfirmationSetSummary)
                         }
-                    }
+                    }*/
                 //preferenceDataStore = datastore
                 isEnabled = false
             }
@@ -94,11 +95,20 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             key = CATEGORY_PASSWORD_SETTINGS_KEY
             title = resources.getString(R.string.categoryPasswordSettingsTitle)
         }
+        val testPreference: Preference = Preference(context).apply {
+            key = "test"
+            title = "test"
+            setOnPreferenceClickListener {
+                Log.i("***", "PasswordDialogPreference text = ${passwordDialogPreference.text}")
+                true
+            }
+        }
         screen.addPreference(passwordSettingsCategory)
         passwordSettingsCategory
             .apply {
                 addPreference(enablePassword)
                 addPreference(passwordDialogPreference)
+                addPreference(testPreference)
             }
         preferenceScreen = screen
     }
@@ -109,12 +119,29 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             .apply {
                 preferenceDataStore = this@SettingsScreenFragment.view.providePasswordDatastore()
                 transformBlock = this@SettingsScreenFragment.view::onPasswordValuePersisting
+                Log.i("***", "PasswordDialogPreference text = $text")
             }
     }
 
 
     @SuppressLint("RestrictedApi")
     override fun onDisplayPreferenceDialog(preference: Preference) {
+        if (isHandled(callbackFragment, preference)) {
+            return
+        }
+
+        // check if dialog is already showing
+        if (parentFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) != null) {
+            return
+        }
+        val f: DialogFragment = getDialogFragment(preference)
+
+        @Suppress("DEPRECATION")
+        f.setTargetFragment(this, 0)
+        f.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
+
+    private fun isHandled(callbackFragment: Fragment?, preference: Preference): Boolean {
         var handled = false
         if (callbackFragment is OnPreferenceDisplayDialogCallback) {
             handled = (callbackFragment as OnPreferenceDisplayDialogCallback)
@@ -143,25 +170,28 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             handled = (activity as OnPreferenceDisplayDialogCallback)
                 .onPreferenceDisplayDialog(this, preference)
         }
+        return handled
+    }
 
-        if (handled) {
-            return
-        }
-
-        // check if dialog is already showing
-        if (parentFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) != null) {
-            return
-        }
-        val f: DialogFragment =
-            if (preference is PasswordDialogPreference) {
+    private fun getDialogFragment(preference: Preference): DialogFragment =
+        when (preference) {
+            is PasswordDialogPreference -> {
                 PasswordPreferenceDialogFragmentCompat.newInstance(preference.getKey())
-            } else if (preference is EditTextPreference) {
+            }
+
+            is EditTextPreference -> {
                 EditTextPreferenceDialogFragmentCompat.newInstance(preference.getKey())
-            } else if (preference is ListPreference) {
+            }
+
+            is ListPreference -> {
                 ListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
-            } else if (preference is MultiSelectListPreference) {
+            }
+
+            is MultiSelectListPreference -> {
                 MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
-            } else {
+            }
+
+            else -> {
                 throw IllegalArgumentException(
                     ("Cannot display dialog for an unknown Preference type: "
                             + preference.javaClass.simpleName
@@ -169,10 +199,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                             + "displaying a custom dialog for this Preference.")
                 )
             }
-        @Suppress("DEPRECATION")
-        f.setTargetFragment(this, 0)
-        f.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
-    }
+        }
 
     companion object {
         private const val DIALOG_FRAGMENT_TAG: String =
