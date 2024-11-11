@@ -22,10 +22,6 @@ class PasswordDialogPreference @JvmOverloads constructor(
 
     lateinit var transformBlock: suspend (String) -> String
 
-    override fun onSetInitialValue(defaultValue: Any?) {
-        text = defaultValue as? String
-    }
-
     var passwordText: String
         set(value) {
             scope.launch {
@@ -36,5 +32,5 @@ class PasswordDialogPreference @JvmOverloads constructor(
                 text = hash
             }
         }
-        get() = text.toString()
+        get() = text?.apply { toString() } ?: getPersistedString(null)
 }

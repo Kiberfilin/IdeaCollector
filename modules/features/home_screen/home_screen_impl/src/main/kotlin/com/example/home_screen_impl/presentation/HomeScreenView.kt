@@ -1,6 +1,5 @@
 package com.example.home_screen_impl.presentation
 
-import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -80,7 +79,6 @@ class HomeScreenView @AssistedInject constructor(
     }
 
     private fun renderHeaderState(state: HomeScreenState) {
-        Log.i("***",state.toString())
         when (state) {
             is HomeScreenState.Unlocked -> {
                 lockScreen(false)

@@ -74,14 +74,14 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             ).apply {
                 key = PASSWORD_AND_CONFIRMATION_KEY
                 title = resources.getString(R.string.passwordAndConfirmationTitle)
-                /*summaryProvider =
+                summaryProvider =
                     SummaryProvider { preference: PasswordDialogPreference ->
-                        if (preference.text.isNullOrEmpty()) {
+                        if (preference.passwordText.isEmpty()) {
                             resources.getString(R.string.passwordAndConfirmationNotSetSummary)
                         } else {
                             resources.getString(R.string.passwordAndConfirmationSetSummary)
                         }
-                    }*/
+                    }
                 //preferenceDataStore = datastore
                 isEnabled = false
             }
@@ -99,7 +99,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             key = "test"
             title = "test"
             setOnPreferenceClickListener {
-                Log.i("***", "PasswordDialogPreference text = ${passwordDialogPreference.text}")
+                Log.i("***", "PasswordDialogPreference text = ${passwordDialogPreference.passwordText}")
                 true
             }
         }
@@ -119,7 +119,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             .apply {
                 preferenceDataStore = this@SettingsScreenFragment.view.providePasswordDatastore()
                 transformBlock = this@SettingsScreenFragment.view::onPasswordValuePersisting
-                Log.i("***", "PasswordDialogPreference text = $text")
+                Log.i("***", "PasswordDialogPreference text = $passwordText")
             }
     }
 
