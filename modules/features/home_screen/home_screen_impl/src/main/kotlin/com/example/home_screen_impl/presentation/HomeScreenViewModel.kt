@@ -23,7 +23,7 @@ class HomeScreenViewModel(
     private val insertIdea: InsertIdeaInputPort,
     private val deleteIdea: DeleteIdeaInputPort,
     private val updateIdea: UpdateIdeaInputPort,
-    private val isPasswordEnabledInputPort: IsPasswordEnabledInputPort,
+    private val isPasswordEnabled: IsPasswordEnabledInputPort,
 ) : BaseViewModel<HomeScreenRouter>() {
     private val initialIdeaEntity: IdeaEntity
     private var _homeScreenState: MutableStateFlow<HomeScreenState>
@@ -31,29 +31,18 @@ class HomeScreenViewModel(
     init {
         initialIdeaEntity =
             IdeaEntity(id = 0, ideaText = EMPTY_STRING, date = currentDate(), Priority.HIGH)
-        _homeScreenState = if (isPasswordEnabledInputPort.execute()) {
-            MutableStateFlow(HomeScreenState.Locked)
-        } else {
-            MutableStateFlow(HomeScreenState.Unlocked(initialIdeaEntity))
-        }
+        _homeScreenState = MutableStateFlow(
+            HomeScreenState(isLocked = isPasswordEnabled.execute(), entity = initialIdeaEntity)
+        )
     }
 
     fun onLongActionButtonClick(): Boolean = router?.navigateToSettingsScreen() != null
     suspend fun ideas(): StateFlow<List<IdeaEntity>> = getIdeas.execute().stateIn(viewModelScope)
     val homeScreenHeaderState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
-    fun onPriorityIconClick() {
-        when (_homeScreenState.value) {
-            is HomeScreenState.Unlocked -> {
-                val tmpEntity: IdeaEntity =
-                    (_homeScreenState.value as HomeScreenState.Unlocked).entity
-                _homeScreenState.value =
-                    (_homeScreenState.value as HomeScreenState.Unlocked).copy(
-                        entity = tmpEntity.copy(priority = incrementPriority(tmpEntity.priority))
-                    )
-            }
-
-            HomeScreenState.Locked      -> Unit
-        }
+    fun onPriorityIconClick() = _homeScreenState.value.entity.let {
+        _homeScreenState.value = _homeScreenState.value.copy(
+            entity = it.copy(priority = incrementPriority(it.priority))
+        )
     }
 
     private fun incrementPriority(priority: Priority): Priority = when (priority) {
@@ -63,53 +52,36 @@ class HomeScreenViewModel(
         Priority.NONE   -> throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
     }
 
-    fun onIdeaTextChanged(ideaText: String) =
-        if (_homeScreenState.value is HomeScreenState.Unlocked) {
-            val tmpEntity: IdeaEntity = (_homeScreenState.value as HomeScreenState.Unlocked).entity
-            _homeScreenState.value = (_homeScreenState.value as HomeScreenState.Unlocked).copy(
-                entity = tmpEntity.copy(ideaText = ideaText)
-            )
-        } else {
-            Unit
-        }
+    fun onIdeaTextChanged(ideaText: String) = _homeScreenState.value.entity.let {
+        _homeScreenState.value = _homeScreenState.value.copy(entity = it.copy(ideaText = ideaText))
+    }
 
-    @Suppress("IMPLICIT_CAST_TO_ANY")
-    fun onActionButtonClick() = if (_homeScreenState.value is HomeScreenState.Unlocked) {
-        val tmpEntity = (_homeScreenState.value as HomeScreenState.Unlocked).entity
-        if (tmpEntity.ideaText != EMPTY_STRING) {
+    fun onActionButtonClick() = _homeScreenState.value.entity.let {
+        if (it.ideaText != EMPTY_STRING) {
             viewModelScope.launch {
-                val idea: IdeaEntity = tmpEntity.copy(date = currentDate())
+                val idea: IdeaEntity = it.copy(date = currentDate())
                 if (idea.id == 0L) {
                     insertIdea.execute(idea)
                 } else {
                     updateIdea.execute(idea)
                 }
-                _homeScreenState.value = HomeScreenState.Unlocked(initialIdeaEntity)
+                _homeScreenState.value = HomeScreenState(
+                    isLocked = isPasswordEnabled.execute(), entity = initialIdeaEntity
+                )
             }
-        } else {
-            Unit
         }
-    } else {
-        Unit
     }
 
     fun onContextMenuDeleteItemClick(ideaEntity: IdeaEntity) =
         viewModelScope.launch { deleteIdea.execute(ideaEntity) }
 
     fun onContextMenuEditItemClick(ideaEntity: IdeaEntity) {
-        _homeScreenState.value =
-            (_homeScreenState.value as HomeScreenState.Unlocked).copy(
-                entity = ideaEntity
-            )
+        _homeScreenState.value = _homeScreenState.value.copy(entity = ideaEntity)
     }
 
     private fun currentDate(): Long = Calendar.getInstance().timeInMillis
     fun onConfigureScreen() {
-        _homeScreenState.value = if (isPasswordEnabledInputPort.execute()) {
-            HomeScreenState.Locked
-        } else {
-            HomeScreenState.Unlocked(initialIdeaEntity)
-        }
+        _homeScreenState.value = _homeScreenState.value.copy(isLocked = isPasswordEnabled.execute())
     }
 
     companion object {

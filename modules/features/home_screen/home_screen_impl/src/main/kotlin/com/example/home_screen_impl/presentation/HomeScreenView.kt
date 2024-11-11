@@ -79,22 +79,14 @@ class HomeScreenView @AssistedInject constructor(
     }
 
     private fun renderHeaderState(state: HomeScreenState) {
-        when (state) {
-            is HomeScreenState.Unlocked -> {
-                lockScreen(false)
-                setPriority(state.entity.priority)
-                setIdeaText(state.entity.ideaText)
-            }
-
-            HomeScreenState.Locked      -> lockScreen(true)
-        }
+        lockScreen(state.isLocked)
+        setPriority(state.entity.priority)
+        setIdeaText(state.entity.ideaText)
     }
 
     private fun lockScreen(lock: Boolean) {
         viewBinding.apply {
-            ideaEditText.isEnabled = !lock
             if (lock) {
-                ideaEditText.text.clear()
                 ideasRecyclerView.visibility = View.GONE
                 lockScreen.visibility = View.VISIBLE
             } else {
