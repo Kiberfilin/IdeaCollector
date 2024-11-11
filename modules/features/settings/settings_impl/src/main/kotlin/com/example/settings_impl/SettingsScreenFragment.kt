@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.preference.PreferenceManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -52,11 +54,14 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
     @Inject
     override lateinit var view: SettingsScreenView
 
+    private var isPasswordSet: Boolean = false
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createAndSetViewModel(SettingsScreenViewModel::class.java)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val sharedPreferences: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(requireActivity())
@@ -76,17 +81,24 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 title = resources.getString(R.string.passwordAndConfirmationTitle)
                 summaryProvider =
                     SummaryProvider { preference: PasswordDialogPreference ->
-                        if (preference.passwordText.isEmpty()) {
+                        isPasswordSet = preference.passwordText.isNotEmpty()
+                        Log.i("***", "SummaryProvider isPasswordSet = $isPasswordSet")
+                        onBackPressedCallback.isEnabled = !isPasswordSet && enablePassword.isChecked
+                        if (!isPasswordSet) {
                             resources.getString(R.string.passwordAndConfirmationNotSetSummary)
                         } else {
                             resources.getString(R.string.passwordAndConfirmationSetSummary)
                         }
                     }
-                //preferenceDataStore = datastore
                 isEnabled = false
             }
         enablePassword.setOnPreferenceChangeListener { _, newValue ->
-            passwordDialogPreference.isEnabled = newValue as Boolean
+            passwordDialogPreference.apply {
+                isEnabled = newValue as Boolean
+                if (passwordDialogPreference.passwordText.isEmpty()) {
+                    performClick()
+                }
+            }
             true
         }
         passwordDialogPreference.isEnabled =
@@ -99,7 +111,10 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             key = "test"
             title = "test"
             setOnPreferenceClickListener {
-                Log.i("***", "PasswordDialogPreference text = ${passwordDialogPreference.passwordText}")
+                Log.i(
+                    "***",
+                    "PasswordDialogPreference text = ${passwordDialogPreference.passwordText}"
+                )
                 true
             }
         }
@@ -121,6 +136,18 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 transformBlock = this@SettingsScreenFragment.view::onPasswordValuePersisting
                 Log.i("***", "PasswordDialogPreference text = $passwordText")
             }
+        Log.i("***", "onVIewCreated isPasswordSet = $isPasswordSet")
+        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val isPasswordSetCheckBoxPreference: CheckBoxPreference =
+                preferenceManager.findPreference(ENABLE_PASSWORD_KEY)!!
+            //Log.i("***", "isPasswordSet = $isPasswordSet")
+            //если пароль не сохранён но чекбокс отмечен
+            if (!isPasswordSet && isPasswordSetCheckBoxPreference.isChecked) {
+                //убираем отметку с чекбокса и отменяем этот колбэк
+                isPasswordSetCheckBoxPreference.isChecked = isPasswordSet
+                isEnabled = isPasswordSet
+            }
+        }
     }
 
 
@@ -175,15 +202,15 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
 
     private fun getDialogFragment(preference: Preference): DialogFragment =
         when (preference) {
-            is PasswordDialogPreference -> {
+            is PasswordDialogPreference  -> {
                 PasswordPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
-            is EditTextPreference -> {
+            is EditTextPreference        -> {
                 EditTextPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
-            is ListPreference -> {
+            is ListPreference            -> {
                 ListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
@@ -191,7 +218,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
-            else -> {
+            else                         -> {
                 throw IllegalArgumentException(
                     ("Cannot display dialog for an unknown Preference type: "
                             + preference.javaClass.simpleName
