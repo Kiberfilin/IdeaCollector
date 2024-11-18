@@ -1,10 +1,7 @@
 package com.example.settings_impl
 
 import android.annotation.SuppressLint
-import android.app.UiModeManager
-import android.content.Context.UI_MODE_SERVICE
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View

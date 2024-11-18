@@ -6,9 +6,11 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceFragmentCompat
+import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeInputPort
 import com.example.infrastructure.base_blueprints.BaseRouter
 import com.example.infrastructure.mvvm_blueprints.BaseViewModel
 import com.example.infrastructure.mvvm_blueprints.preference_fragment.BasePreferenceFragmentView
+import javax.inject.Inject
 
 abstract class BasePreferenceFragment
 <R : BaseRouter,
@@ -21,6 +23,9 @@ abstract class BasePreferenceFragment
     private lateinit var viewModel: VM
     abstract var view: V
 
+    @Inject
+    internal lateinit var getThemeInputPort: GetThemeInputPort
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         daggerInit()
@@ -28,6 +33,8 @@ abstract class BasePreferenceFragment
 
     protected fun createAndSetViewModel(javaClass: Class<VM>) {
         viewModel = ViewModelProvider(this, viewModelFactory)[javaClass]
+        @Suppress("UNCHECKED_CAST")
+        (viewModel as BaseViewModel<R>).themeFlow = getThemeInputPort.execute()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
