@@ -3,6 +3,7 @@ package com.example.core_api.contracts
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedPasswordInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.HashPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.IsPasswordEnabledInputPort
@@ -18,4 +19,5 @@ interface UseCasesProvider {
     fun provideGetPersistedPasswordInputPort(): GetPersistedPasswordInputPort
     fun provideHashPasswordInputPort(): HashPasswordInputPort
     fun provideIsPasswordEnabledInputPort(): IsPasswordEnabledInputPort
+    fun provideGetThemeInputPort(): GetThemeInputPort
 }

@@ -5,11 +5,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.example.infrastructure.base_blueprints.ThemeContractActor
 
 abstract class BaseFragmentView<VB : ViewBinding, VM : ViewModel>(
     protected val viewBinding: VB,
     protected val lifecycle: Lifecycle
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver, ThemeContractActor {
 
     init {
         registerObserver()

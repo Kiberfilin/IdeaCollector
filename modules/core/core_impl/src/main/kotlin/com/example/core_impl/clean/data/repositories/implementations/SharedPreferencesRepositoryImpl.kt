@@ -21,4 +21,8 @@ class SharedPreferencesRepositoryImpl @Inject constructor(
     override fun getBoolean(key: String, defValue: Boolean): Boolean {
         return sharedPreferences.getBoolean(key, defValue)
     }
+
+    override fun getString(key: String, defValue: String?): String? {
+        return sharedPreferences.getString(key, defValue)
+    }
 }

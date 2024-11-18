@@ -12,9 +12,12 @@
         <item>Priority</item>
         <item>Date</item>
     </string-array>
+    <string name="appThemeTitle">Theme</string>
+    <string name="appThemeSummaryUndefined">Undefined</string>
     <string-array name="appTheme">
         <item>Light</item>
         <item>Dark</item>
+        <item>Auto</item>
     </string-array>
     <string name="passwordLabel">Password:</string>
     <string name="passwordEditTextHint">Type your new password</string>

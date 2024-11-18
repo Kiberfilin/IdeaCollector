@@ -53,4 +53,6 @@ dependencies {
     implementation(libs.navigation.fragment)
     //Preference
     implementation(libs.androidx.preference.ktx)
+
+    implementation(project(":modules:core:core_api"))
 }

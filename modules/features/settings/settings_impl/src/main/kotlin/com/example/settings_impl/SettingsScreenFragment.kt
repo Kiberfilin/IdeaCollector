@@ -1,13 +1,15 @@
 package com.example.settings_impl
 
 import android.annotation.SuppressLint
+import android.app.UiModeManager
+import android.content.Context.UI_MODE_SERVICE
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
-import androidx.preference.PreferenceManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
@@ -22,6 +24,7 @@ import androidx.preference.MultiSelectListPreferenceDialogFragmentCompat
 import androidx.preference.Preference
 import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceManager
 import com.example.core_api.constants.*
 import com.example.core_api.contracts.AppWithFacade
 import com.example.infrastructure.base_blueprints.preference_fragment.BasePreferenceFragment
@@ -107,6 +110,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             key = CATEGORY_PASSWORD_SETTINGS_KEY
             title = resources.getString(R.string.categoryPasswordSettingsTitle)
         }
+        //TODO убрать
         val testPreference: Preference = Preference(context).apply {
             key = "test"
             title = "test"
@@ -118,7 +122,24 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 true
             }
         }
-        screen.addPreference(passwordSettingsCategory)
+
+        val themePreference: ListPreference = ListPreference(context).apply {
+            key = THEME_KEY
+            title = resources.getString(R.string.appThemeTitle)
+            entries = resources.getStringArray(R.array.appTheme)
+            entryValues = arrayOf(THEME_LIGHT, THEME_DARK, THEME_AUTO)
+            summaryProvider = SummaryProvider { preference: ListPreference ->
+                when (preference.value) {
+                    null -> resources.getString(R.string.appThemeSummaryUndefined)
+
+                    else -> preference.value
+                }
+            }
+        }
+        screen.apply {
+            addPreference(passwordSettingsCategory)
+            addPreference(themePreference)
+        }
         passwordSettingsCategory
             .apply {
                 addPreference(enablePassword)

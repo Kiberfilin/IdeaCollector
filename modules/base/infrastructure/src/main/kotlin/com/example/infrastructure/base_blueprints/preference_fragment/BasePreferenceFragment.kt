@@ -1,5 +1,6 @@
 package com.example.infrastructure.base_blueprints.preference_fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModel
@@ -33,6 +34,11 @@ abstract class BasePreferenceFragment
         @Suppress("UNCHECKED_CAST")
         (viewModel as BaseViewModel<R>).bindRouter(router)
         this.view.setProperViewModel(viewModel)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            this.view.prepareScreenThemeAfterApiR(requireContext(), lifecycle, viewModel)
+        } else {
+            this.view.prepareScreenTheme(lifecycle, viewModel)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 

@@ -3,6 +3,7 @@ package com.example.home_screen_impl.presentation
 import androidx.lifecycle.viewModelScope
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.IsPasswordEnabledInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.UpdateIdeaInputPort
@@ -24,7 +25,8 @@ class HomeScreenViewModel(
     private val deleteIdea: DeleteIdeaInputPort,
     private val updateIdea: UpdateIdeaInputPort,
     private val isPasswordEnabled: IsPasswordEnabledInputPort,
-) : BaseViewModel<HomeScreenRouter>() {
+    private val getTheme: GetThemeInputPort
+) : BaseViewModel<HomeScreenRouter>(getTheme.execute()) {
     private val initialIdeaEntity: IdeaEntity
     private var _homeScreenState: MutableStateFlow<HomeScreenState>
 
