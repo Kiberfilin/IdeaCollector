@@ -60,7 +60,7 @@ interface ThemeContractActor {
                         )
 
                         THEME_DARK  -> AppCompatDelegate.setDefaultNightMode(
-                            AppCompatDelegate.MODE_NIGHT_NO
+                            AppCompatDelegate.MODE_NIGHT_YES
                         )
 
                         THEME_AUTO  -> AppCompatDelegate.setDefaultNightMode(
