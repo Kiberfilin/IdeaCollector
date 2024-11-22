@@ -17,7 +17,9 @@ import javax.inject.Singleton
 interface FacadeComponent : ProvidersFacade {
     companion object {
 
-        fun init(@Application context: Context): FacadeComponent {
+        fun init(
+            @Application context: Context
+        ): FacadeComponent {
             val appProvider = AppComponent.create(context)
             return DaggerFacadeComponent.builder()
                 .appProvider(appProvider)

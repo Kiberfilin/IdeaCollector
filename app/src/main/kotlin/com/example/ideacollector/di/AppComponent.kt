@@ -1,6 +1,8 @@
 package com.example.ideacollector.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.example.core_api.contracts.AppProvider
 import com.example.core_api.di.qualifier.Application
 import dagger.BindsInstance
@@ -12,7 +14,9 @@ import javax.inject.Singleton
 interface AppComponent : AppProvider {
     companion object {
         private var appComponent: AppProvider? = null
-        fun create(@Application appContext: Context): AppProvider =
+        fun create(
+            @Application appContext: Context
+        ): AppProvider =
             appComponent ?: DaggerAppComponent.factory().create(appContext)
                 .also { appComponent = it }
     }

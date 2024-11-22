@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.room.ktx)
     //Preference
     implementation(libs.androidx.preference.ktx)
+    //Datastore
+    implementation (libs.androidx.datastore.preferences)
 
     implementation(project(":modules:core:core_factory"))
     implementation(project(":modules:base:ui_kit"))
