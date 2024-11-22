@@ -59,4 +59,6 @@ dependencies {
     implementation(project(":modules:base:ui_kit"))
     implementation(project(":modules:base:infrastructure"))
     implementation(project(":modules:features:settings:settings_api"))
+    //Datastore
+    implementation (libs.androidx.datastore.preferences)
 }

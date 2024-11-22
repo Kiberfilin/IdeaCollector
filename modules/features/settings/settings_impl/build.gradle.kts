@@ -57,4 +57,6 @@ dependencies {
     implementation (project(":modules:core:core_api"))
     implementation (project(":modules:base:ui_kit"))
     implementation(project(":modules:base:infrastructure"))
+    //Datastore
+    implementation (libs.androidx.datastore.preferences)
 }

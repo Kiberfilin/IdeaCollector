@@ -57,6 +57,8 @@ dependencies {
     api(libs.kotlinx.coroutines.android)
     //Security
     implementation(libs.security.crypto)
+    //Datastore
+    implementation (libs.androidx.datastore.preferences)
 
     api(project(":modules:core:core_api"))
 }
