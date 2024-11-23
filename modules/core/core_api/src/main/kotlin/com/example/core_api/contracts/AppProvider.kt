@@ -6,7 +6,6 @@ import androidx.datastore.core.DataStore
 import com.example.core_api.di.qualifier.Application
 import androidx.datastore.preferences.core.Preferences
 
-
 interface AppProvider {
     @Application
     fun provideContext(): Context

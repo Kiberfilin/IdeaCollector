@@ -1,8 +1,6 @@
 package com.example.ideacollector.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.example.core_api.contracts.AppProvider
 import com.example.core_api.di.qualifier.Application
 import dagger.BindsInstance
