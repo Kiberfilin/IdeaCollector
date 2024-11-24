@@ -4,11 +4,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.example.infrastructure.base_blueprints.ThemeContractActor
 
 abstract class BasePreferenceFragmentView<VM : ViewModel>(
     protected val lifecycle: Lifecycle
-) : DefaultLifecycleObserver, ThemeContractActor {
+) : DefaultLifecycleObserver {
 
     init {
         registerObserver()
