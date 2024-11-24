@@ -2,7 +2,7 @@ package com.example.settings_impl.presentation.custom
 
 import androidx.preference.PreferenceDataStore
 
-class PasswordDatastore(
+class CustomDatastore(
     private val persistString: (String, String?) -> Unit,
     private val extractPersistedString: (String, String?) -> String
 ) : PreferenceDataStore() {

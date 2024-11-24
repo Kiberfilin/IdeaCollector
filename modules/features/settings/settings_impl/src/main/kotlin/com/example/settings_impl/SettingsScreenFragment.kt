@@ -166,6 +166,9 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 isEnabled = isPasswordSet
             }
         }
+        preferenceManager.findPreference<ListPreference>(THEME_KEY)!!.apply {
+            preferenceDataStore = this@SettingsScreenFragment.view.provideThemeDataStore()
+        }
     }
 
 

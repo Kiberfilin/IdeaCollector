@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeFlowInputPort
 import com.example.infrastructure.base_blueprints.BaseRouter
 import com.example.infrastructure.mvvm_blueprints.fragment.BaseFragmentView
 import com.example.infrastructure.mvvm_blueprints.BaseViewModel
@@ -27,7 +27,7 @@ abstract class BaseFragment
     private var _binding: VB? = null
 
     @Inject
-    internal lateinit var getThemeInputPort: GetThemeInputPort
+    internal lateinit var getThemeFlowInputPort: GetThemeFlowInputPort
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -47,7 +47,7 @@ abstract class BaseFragment
     protected fun createAndSetViewModel(javaClass: Class<VM>) {
         viewModel = ViewModelProvider(this, viewModelFactory)[javaClass]
         @Suppress("UNCHECKED_CAST")
-        (viewModel as BaseViewModel<R>).themeFlow = getThemeInputPort.execute()
+        (viewModel as BaseViewModel<R>).themeFlow = getThemeFlowInputPort.execute()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

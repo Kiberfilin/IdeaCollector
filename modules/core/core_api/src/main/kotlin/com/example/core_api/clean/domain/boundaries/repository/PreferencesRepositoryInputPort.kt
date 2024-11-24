@@ -8,4 +8,6 @@ interface PreferencesRepositoryInputPort {
     fun getBoolean(key: String, defValue: Boolean): Boolean
     fun getString(key: String, defValue: String?): String?
     fun getThemePreferenceFlow(): Flow<String?>
+    fun persistString(key: String, value: String?)
+    suspend fun persistTheme(value: String)
 }
