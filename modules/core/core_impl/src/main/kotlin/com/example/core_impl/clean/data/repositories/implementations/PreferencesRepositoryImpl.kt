@@ -1,7 +1,6 @@
 package com.example.core_impl.clean.data.repositories.implementations
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
@@ -47,17 +46,13 @@ class PreferencesRepositoryImpl @Inject constructor(
 
     override fun getThemePreferenceFlow(): Flow<String?> =
         preferencesDataStore.data.catch { exception ->
-            Log.i("***", "exception is $exception")
             if (exception is IOException) {
                 emit(emptyPreferences())
             } else {
                 throw exception
             }
         }.map { preferences: Preferences ->
-            val value = preferences[PreferencesKeys.THEME_PREFERENCES_KEY].also {
-                Log.i("***", "theme value = $it")
-            }
-            value
+            preferences[PreferencesKeys.THEME_PREFERENCES_KEY]
         }
 
     private object PreferencesKeys {

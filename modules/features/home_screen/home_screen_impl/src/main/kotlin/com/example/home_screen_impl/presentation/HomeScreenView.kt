@@ -1,7 +1,9 @@
 package com.example.home_screen_impl.presentation
 
+import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
@@ -15,6 +17,7 @@ import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.presentation.recyclerview.IdeasRecyclerViewAdapter
 import com.example.home_screen_impl.presentation.state.HomeScreenState
 import com.example.infrastructure.mvvm_blueprints.fragment.BaseFragmentView
+import com.example.ui_kit.dialogs.PasswordInputDialog
 import com.example.ui_kit.helpers.clearFocusAndHideKeyboard
 import com.example.ui_kit.helpers.requestFocusAndShowKeyboard
 import dagger.assisted.Assisted
@@ -24,12 +27,16 @@ import kotlinx.coroutines.launch
 
 class HomeScreenView @AssistedInject constructor(
     @Assisted viewBinding: FragmentHomeScreenBinding,
+    @Assisted private val fragmentManager: FragmentManager,
     lifecycle: Lifecycle
 ) : BaseFragmentView<FragmentHomeScreenBinding, HomeScreenViewModel>(viewBinding, lifecycle) {
     private val ideasRecyclerViewAdapter = IdeasRecyclerViewAdapter()
+    private fun showPasswordInputDialog() = PasswordInputDialog
+        .newInstance(viewModel::onPasswordChecking)
+        .show(fragmentManager, null)
 
     private fun configureScreen() {
-        viewModel.onConfigureScreen()
+        //viewModel.onConfigureScreen()
         viewBinding.ideaPriorityIcon.apply {
             setBlueCornerVisible(true)
             setOnClickListener { viewModel.onPriorityIconClick() }
@@ -40,7 +47,7 @@ class HomeScreenView @AssistedInject constructor(
                 viewBinding.ideaEditText.clearFocusAndHideKeyboard()
             }
             setOnLongClickListener {
-                viewModel.onLongActionButtonClick()
+                viewModel.onLongActionButtonClick(::showPasswordInputDialog)
             }
         }
         viewBinding.ideaEditText.addTextChangedListener {
@@ -52,6 +59,9 @@ class HomeScreenView @AssistedInject constructor(
             adapter = ideasRecyclerViewAdapter
             val dividerItemDecoration = DividerItemDecoration(context, layoutManager.orientation)
             addItemDecoration(dividerItemDecoration)
+        }
+        viewBinding.lockIcon.setOnClickListener {
+            showPasswordInputDialog()
         }
     }
 
@@ -76,15 +86,32 @@ class HomeScreenView @AssistedInject constructor(
                 renderHeaderState(it)
             }
         }
+        lifecycle.coroutineScope.launch {
+            viewModel.isUserAuthenticated.flowWithLifecycle(
+                lifecycle = lifecycle,
+                minActiveState = Lifecycle.State.STARTED
+            ).collect { isAuthenticated: Boolean ->
+                Log.i(
+                    "***",
+                    "${this@HomeScreenView.javaClass.simpleName} isAuthenticated = $isAuthenticated, " +
+                            "viewModel.isPasswordEnabled() = ${viewModel.isPasswordEnabled()}"
+                )
+                lockScreen(!isAuthenticated && viewModel.isPasswordEnabled())
+            }
+        }
     }
 
     private fun renderHeaderState(state: HomeScreenState) {
-        lockScreen(state.isLocked)
+        //lockScreen(state.isLocked)
         setPriority(state.entity.priority)
         setIdeaText(state.entity.ideaText)
     }
 
     private fun lockScreen(lock: Boolean) {
+        Log.i(
+            "***",
+            "${this@HomeScreenView.javaClass.simpleName} lockScreen(lock: Boolean) lock = $lock"
+        )
         viewBinding.apply {
             if (lock) {
                 ideasRecyclerView.visibility = View.GONE
@@ -138,5 +165,7 @@ class HomeScreenView @AssistedInject constructor(
 
 @AssistedFactory
 interface HomeScreenViewFactory {
-    fun create(viewBinding: FragmentHomeScreenBinding): HomeScreenView
+    fun create(
+        viewBinding: FragmentHomeScreenBinding, childFragmentManager: FragmentManager
+    ): HomeScreenView
 }

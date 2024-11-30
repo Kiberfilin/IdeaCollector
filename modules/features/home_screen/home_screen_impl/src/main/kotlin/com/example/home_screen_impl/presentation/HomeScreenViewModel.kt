@@ -1,6 +1,7 @@
 package com.example.home_screen_impl.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.example.core_api.clean.domain.boundaries.use_cases.CheckIsPasswordCorrectInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
@@ -23,22 +24,32 @@ class HomeScreenViewModel(
     private val insertIdea: InsertIdeaInputPort,
     private val deleteIdea: DeleteIdeaInputPort,
     private val updateIdea: UpdateIdeaInputPort,
-    private val isPasswordEnabled: IsPasswordEnabledInputPort
+    private val isPasswordEnabled: IsPasswordEnabledInputPort,
+    private val checkIsPasswordCorrect: CheckIsPasswordCorrectInputPort
 ) : BaseViewModel<HomeScreenRouter>() {
     private val initialIdeaEntity: IdeaEntity
-    private var _homeScreenState: MutableStateFlow<HomeScreenState>
+    private val _homeScreenState: MutableStateFlow<HomeScreenState>
+    private val _isUserAuthenticated: MutableStateFlow<Boolean>
 
     init {
         initialIdeaEntity =
             IdeaEntity(id = 0, ideaText = EMPTY_STRING, date = currentDate(), Priority.HIGH)
-        _homeScreenState = MutableStateFlow(
-            HomeScreenState(isLocked = isPasswordEnabled.execute(), entity = initialIdeaEntity)
-        )
+        _homeScreenState = MutableStateFlow(HomeScreenState(entity = initialIdeaEntity))
+        _isUserAuthenticated = MutableStateFlow(!isPasswordEnabled.execute())
     }
 
-    fun onLongActionButtonClick(): Boolean = router?.navigateToSettingsScreen() != null
+    fun onLongActionButtonClick(onPasswordSet: () -> Unit): Boolean {
+        return if (!_isUserAuthenticated.value) {
+            onPasswordSet.invoke()
+            true
+        } else {
+            router?.navigateToSettingsScreen() != null
+        }
+    }
+
     suspend fun ideas(): StateFlow<List<IdeaEntity>> = getIdeas.execute().stateIn(viewModelScope)
     val homeScreenHeaderState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
+    val isUserAuthenticated: StateFlow<Boolean> = _isUserAuthenticated.asStateFlow()
     fun onPriorityIconClick() = _homeScreenState.value.entity.let {
         _homeScreenState.value = _homeScreenState.value.copy(
             entity = it.copy(priority = incrementPriority(it.priority))
@@ -65,9 +76,7 @@ class HomeScreenViewModel(
                 } else {
                     updateIdea.execute(idea)
                 }
-                _homeScreenState.value = HomeScreenState(
-                    isLocked = isPasswordEnabled.execute(), entity = initialIdeaEntity
-                )
+                _homeScreenState.value = HomeScreenState(entity = initialIdeaEntity)
             }
         }
     }
@@ -80,9 +89,19 @@ class HomeScreenViewModel(
     }
 
     private fun currentDate(): Long = Calendar.getInstance().timeInMillis
-    fun onConfigureScreen() {
+    fun isPasswordEnabled(): Boolean = isPasswordEnabled.execute()
+
+    /*fun onConfigureScreen() {
         _homeScreenState.value = _homeScreenState.value.copy(isLocked = isPasswordEnabled.execute())
+    }*/
+    private fun onAuthenticationFinished(isSuccessful: Boolean) {
+        _isUserAuthenticated.value = isSuccessful
     }
+
+    suspend fun onPasswordChecking(enteredPassword: String): Boolean =
+        checkIsPasswordCorrect.execute(enteredPassword).also {
+            onAuthenticationFinished(it)
+        }
 
     companion object {
         private const val EMPTY_STRING: String = ""

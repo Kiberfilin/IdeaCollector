@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="passwordDialogMessage">Enter the password</string>
+    <string name="passwordDialogTitle">Type password…</string>
+    <string name="passwordDialogPositiveButtonLabel">OK</string>
+    <string name="passwordDialogNegativeButtonLabel">Cancel</string>
+    <string name="passwordDialogPasswordEditTextLabel">Password:</string>
+    <string name="passwordDialogPasswordEditTextHint">Enter the password</string>
+</resources>

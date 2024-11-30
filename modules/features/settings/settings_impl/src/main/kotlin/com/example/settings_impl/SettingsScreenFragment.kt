@@ -3,7 +3,6 @@ package com.example.settings_impl
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -82,7 +81,6 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 summaryProvider =
                     SummaryProvider { preference: PasswordDialogPreference ->
                         isPasswordSet = preference.passwordText.isNotEmpty()
-                        Log.i("***", "SummaryProvider isPasswordSet = $isPasswordSet")
                         onBackPressedCallback.isEnabled = !isPasswordSet && enablePassword.isChecked
                         if (!isPasswordSet) {
                             resources.getString(R.string.passwordAndConfirmationNotSetSummary)
@@ -108,7 +106,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             title = resources.getString(R.string.categoryPasswordSettingsTitle)
         }
         //TODO убрать
-        val testPreference: Preference = Preference(context).apply {
+        /*val testPreference: Preference = Preference(context).apply {
             key = "test"
             title = "test"
             setOnPreferenceClickListener {
@@ -118,7 +116,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 )
                 true
             }
-        }
+        }*/
 
         val themePreference: ListPreference = ListPreference(context).apply {
             key = THEME_KEY
@@ -141,7 +139,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             .apply {
                 addPreference(enablePassword)
                 addPreference(passwordDialogPreference)
-                addPreference(testPreference)
+                //addPreference(testPreference)
             }
         preferenceScreen = screen
     }
@@ -152,13 +150,10 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             .apply {
                 preferenceDataStore = this@SettingsScreenFragment.view.providePasswordDatastore()
                 transformBlock = this@SettingsScreenFragment.view::onPasswordValuePersisting
-                Log.i("***", "PasswordDialogPreference text = $passwordText")
             }
-        Log.i("***", "onVIewCreated isPasswordSet = $isPasswordSet")
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             val isPasswordSetCheckBoxPreference: CheckBoxPreference =
                 preferenceManager.findPreference(ENABLE_PASSWORD_KEY)!!
-            //Log.i("***", "isPasswordSet = $isPasswordSet")
             //если пароль не сохранён но чекбокс отмечен
             if (!isPasswordSet && isPasswordSetCheckBoxPreference.isChecked) {
                 //убираем отметку с чекбокса и отменяем этот колбэк

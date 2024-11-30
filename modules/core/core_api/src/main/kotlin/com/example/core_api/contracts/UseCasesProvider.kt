@@ -1,5 +1,6 @@
 package com.example.core_api.contracts
 
+import com.example.core_api.clean.domain.boundaries.use_cases.CheckIsPasswordCorrectInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedPasswordInputPort
@@ -24,4 +25,5 @@ interface UseCasesProvider {
     fun provideGetThemeFlowInputPort(): GetThemeFlowInputPort
     fun providePersistThemeInputPort(): PersistThemeInputPort
     fun provideGetPersistedThemeInputPort(): GetPersistedThemeInputPort
+    fun provideCheckIsPasswordCorrectInputPort(): CheckIsPasswordCorrectInputPort
 }

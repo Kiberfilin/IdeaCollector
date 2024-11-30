@@ -50,7 +50,7 @@ class HomeScreenFragment : BaseFragment<
         savedInstanceState: Bundle?
     ): View {
         initViewBinding(FragmentHomeScreenBinding.inflate(inflater, container, false))
-        view = viewFactory.create(binding)
+        view = viewFactory.create(binding, childFragmentManager)
         return binding.root
     }
 
