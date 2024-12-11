@@ -14,6 +14,7 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import androidx.preference.ListPreference
+import androidx.preference.ListPreference.SimpleSummaryProvider
 import androidx.preference.ListPreferenceDialogFragmentCompat
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragmentCompat
@@ -107,18 +108,6 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
             key = CATEGORY_PASSWORD_SETTINGS_KEY
             title = resources.getString(R.string.categoryPasswordSettingsTitle)
         }
-        //TODO убрать
-        /*val testPreference: Preference = Preference(context).apply {
-            key = "test"
-            title = "test"
-            setOnPreferenceClickListener {
-                Log.i(
-                    "***",
-                    "PasswordDialogPreference text = ${passwordDialogPreference.passwordText}"
-                )
-                true
-            }
-        }*/
 
         val themePreference: ListPreference = ListPreference(context).apply {
             key = THEME_KEY
@@ -133,15 +122,24 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 }
             }
         }
+
+        val sortTypePreference: ListPreference = ListPreference(context).apply {
+            key = SORT_TYPE_KEY
+            title = resources.getString(R.string.sortTypeTitle)
+            entries = resources.getStringArray(R.array.sortType)
+            entryValues = arrayOf(SORT_TYPE_PRIORITY, SORT_TYPE_DATE)
+            setDefaultValue(entryValues[0])
+            summaryProvider = SimpleSummaryProvider.getInstance()
+        }
         screen.apply {
             addPreference(passwordSettingsCategory)
+            addPreference(sortTypePreference)
             addPreference(themePreference)
         }
         passwordSettingsCategory
             .apply {
                 addPreference(enablePassword)
                 addPreference(passwordDialogPreference)
-                //addPreference(testPreference)
             }
         preferenceScreen = screen
     }

@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.core_api.clean.domain.boundaries.use_cases.CheckIsPasswordCorrectInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetSortOrderInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.IsPasswordEnabledInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.UpdateIdeaInputPort
 import com.example.core_api.di.qualifier.Authentication
+import com.example.home_screen_impl.presentation.comparators.factory.SortTypeComparatorFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
@@ -20,7 +22,9 @@ class HomeScreenViewModelFactory @Inject constructor(
     private val isPasswordEnabledInputPort: IsPasswordEnabledInputPort,
     private val checkIsPasswordCorrect: CheckIsPasswordCorrectInputPort,
     @Authentication
-    private val isUserAuthenticatedStateFlow: MutableStateFlow<Boolean>
+    private val isUserAuthenticatedStateFlow: MutableStateFlow<Boolean>,
+    private val getSortOrder: GetSortOrderInputPort,
+    private val sortTypeComparatorFactory: SortTypeComparatorFactory
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
@@ -33,10 +37,12 @@ class HomeScreenViewModelFactory @Inject constructor(
                     updateIdea,
                     isPasswordEnabledInputPort,
                     checkIsPasswordCorrect,
-                    isUserAuthenticatedStateFlow
+                    isUserAuthenticatedStateFlow,
+                    getSortOrder,
+                    sortTypeComparatorFactory
                 ) as T
 
-            else                                                         -> throw IllegalArgumentException(
+            else -> throw IllegalArgumentException(
                 "Unknown ViewModel class"
             )
         }

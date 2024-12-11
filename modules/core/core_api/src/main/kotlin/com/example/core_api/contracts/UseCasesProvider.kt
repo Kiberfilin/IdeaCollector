@@ -5,6 +5,7 @@ import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPor
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedThemeInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetSortOrderInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeFlowInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.HashPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
@@ -26,4 +27,5 @@ interface UseCasesProvider {
     fun providePersistThemeInputPort(): PersistThemeInputPort
     fun provideGetPersistedThemeInputPort(): GetPersistedThemeInputPort
     fun provideCheckIsPasswordCorrectInputPort(): CheckIsPasswordCorrectInputPort
+    fun provideGetSortOrderInputPort(): GetSortOrderInputPort
 }

@@ -5,6 +5,7 @@ import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPor
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetPersistedThemeInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetSortOrderInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetThemeFlowInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.HashPasswordInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
@@ -17,6 +18,7 @@ import com.example.core_impl.clean.domain.usecases.DeleteIdeaInteractor
 import com.example.core_impl.clean.domain.usecases.GetAllIdeasInteractor
 import com.example.core_impl.clean.domain.usecases.GetPersistedPasswordInteractor
 import com.example.core_impl.clean.domain.usecases.GetPersistedThemeInteractor
+import com.example.core_impl.clean.domain.usecases.GetSortOrderInteractor
 import com.example.core_impl.clean.domain.usecases.GetThemeFlowInteractor
 import com.example.core_impl.clean.domain.usecases.HashPasswordInteractor
 import com.example.core_impl.clean.domain.usecases.InsertIdeaInteractor
@@ -71,4 +73,6 @@ interface UseCasesModule {
         interactor: CheckIsPasswordCorrectInteractor
     ): CheckIsPasswordCorrectInputPort
 
+    @Binds
+    fun bindsGetSortOrderInputPort(interactor: GetSortOrderInteractor): GetSortOrderInputPort
 }

@@ -4,17 +4,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.core_api.clean.domain.boundaries.use_cases.CheckIsPasswordCorrectInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.DeleteIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.GetAllIdeasInputPort
+import com.example.core_api.clean.domain.boundaries.use_cases.GetSortOrderInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.InsertIdeaInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.IsPasswordEnabledInputPort
 import com.example.core_api.clean.domain.boundaries.use_cases.UpdateIdeaInputPort
 import com.example.core_api.clean.domain.entities.IdeaEntity
 import com.example.core_api.clean.domain.entities.Priority
 import com.example.home_screen_impl.navigation.HomeScreenRouter
+import com.example.home_screen_impl.presentation.comparators.factory.SortTypeComparatorFactory
 import com.example.home_screen_impl.presentation.state.HomeScreenState
 import com.example.infrastructure.mvvm_blueprints.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -26,7 +29,9 @@ class HomeScreenViewModel(
     private val updateIdea: UpdateIdeaInputPort,
     private val isPasswordEnabled: IsPasswordEnabledInputPort,
     private val checkIsPasswordCorrect: CheckIsPasswordCorrectInputPort,
-    private val _isUserAuthenticated: MutableStateFlow<Boolean>
+    private val _isUserAuthenticated: MutableStateFlow<Boolean>,
+    private val getSortOrder: GetSortOrderInputPort,
+    private val sortTypeComparatorFactory: SortTypeComparatorFactory
 ) : BaseViewModel<HomeScreenRouter>() {
     private val initialIdeaEntity: IdeaEntity
     private val _homeScreenState: MutableStateFlow<HomeScreenState>
@@ -48,7 +53,13 @@ class HomeScreenViewModel(
         }
     }
 
-    suspend fun ideas(): StateFlow<List<IdeaEntity>> = getIdeas.execute().stateIn(viewModelScope)
+    suspend fun ideas(): StateFlow<List<IdeaEntity>> =
+        getIdeas.execute().map { entities ->
+            val comparator: Comparator<IdeaEntity> =
+                sortTypeComparatorFactory.provideComparator(getSortOrder.execute())
+            entities.sortedWith(comparator)
+        }.stateIn(viewModelScope)
+
     val homeScreenHeaderState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
     fun onPriorityIconClick() = _homeScreenState.value.entity.let {
         _homeScreenState.value = _homeScreenState.value.copy(

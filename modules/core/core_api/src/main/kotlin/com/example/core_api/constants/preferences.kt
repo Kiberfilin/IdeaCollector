@@ -11,3 +11,7 @@ const val DATASTORE_NAME: String = "preferences.datastore.name"
 const val THEME_LIGHT: String = "Light"
 const val THEME_DARK: String = "Dark"
 const val THEME_AUTO: String = "Auto"
+
+//Sorting
+const val SORT_TYPE_PRIORITY: String = "Priority"
+const val SORT_TYPE_DATE: String = "Date"

@@ -10,7 +10,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_api.clean.domain.entities.IdeaEntity
 import com.example.core_api.clean.domain.entities.Priority
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.presentation.recyclerview.IdeasRecyclerViewAdapter
@@ -73,7 +72,7 @@ class HomeScreenView @AssistedInject constructor(
                     minActiveState = Lifecycle.State.STARTED
                 )
                 .collect {
-                    observeIdeasData(it)
+                    ideasRecyclerViewAdapter.submitList(it)
                 }
         }
         lifecycle.coroutineScope.launch {
@@ -126,12 +125,6 @@ class HomeScreenView @AssistedInject constructor(
             Priority.NONE -> {
                 throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
             }
-        }
-    }
-
-    private fun observeIdeasData(ideas: List<IdeaEntity>) {
-        if (ideas != ideasRecyclerViewAdapter.currentList) {
-            ideasRecyclerViewAdapter.submitList(ideas)
         }
     }
 
