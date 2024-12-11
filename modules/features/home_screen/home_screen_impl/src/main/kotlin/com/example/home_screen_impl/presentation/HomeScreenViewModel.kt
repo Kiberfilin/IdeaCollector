@@ -25,18 +25,19 @@ class HomeScreenViewModel(
     private val deleteIdea: DeleteIdeaInputPort,
     private val updateIdea: UpdateIdeaInputPort,
     private val isPasswordEnabled: IsPasswordEnabledInputPort,
-    private val checkIsPasswordCorrect: CheckIsPasswordCorrectInputPort
+    private val checkIsPasswordCorrect: CheckIsPasswordCorrectInputPort,
+    private val _isUserAuthenticated: MutableStateFlow<Boolean>
 ) : BaseViewModel<HomeScreenRouter>() {
     private val initialIdeaEntity: IdeaEntity
     private val _homeScreenState: MutableStateFlow<HomeScreenState>
-    private val _isUserAuthenticated: MutableStateFlow<Boolean>
 
     init {
         initialIdeaEntity =
             IdeaEntity(id = 0, ideaText = EMPTY_STRING, date = currentDate(), Priority.HIGH)
         _homeScreenState = MutableStateFlow(HomeScreenState(entity = initialIdeaEntity))
-        _isUserAuthenticated = MutableStateFlow(!isPasswordEnabled.execute())
     }
+
+    fun isUserAuthenticated(): StateFlow<Boolean> = _isUserAuthenticated.asStateFlow()
 
     fun onLongActionButtonClick(onPasswordSet: () -> Unit): Boolean {
         return if (!_isUserAuthenticated.value) {
@@ -49,7 +50,6 @@ class HomeScreenViewModel(
 
     suspend fun ideas(): StateFlow<List<IdeaEntity>> = getIdeas.execute().stateIn(viewModelScope)
     val homeScreenHeaderState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
-    val isUserAuthenticated: StateFlow<Boolean> = _isUserAuthenticated.asStateFlow()
     fun onPriorityIconClick() = _homeScreenState.value.entity.let {
         _homeScreenState.value = _homeScreenState.value.copy(
             entity = it.copy(priority = incrementPriority(it.priority))
@@ -57,10 +57,10 @@ class HomeScreenViewModel(
     }
 
     private fun incrementPriority(priority: Priority): Priority = when (priority) {
-        Priority.HIGH   -> Priority.MEDIUM
+        Priority.HIGH -> Priority.MEDIUM
         Priority.MEDIUM -> Priority.LOW
-        Priority.LOW    -> Priority.HIGH
-        Priority.NONE   -> throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
+        Priority.LOW -> Priority.HIGH
+        Priority.NONE -> throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
     }
 
     fun onIdeaTextChanged(ideaText: String) = _homeScreenState.value.entity.let {
@@ -91,17 +91,8 @@ class HomeScreenViewModel(
     private fun currentDate(): Long = Calendar.getInstance().timeInMillis
     fun isPasswordEnabled(): Boolean = isPasswordEnabled.execute()
 
-    /*fun onConfigureScreen() {
-        _homeScreenState.value = _homeScreenState.value.copy(isLocked = isPasswordEnabled.execute())
-    }*/
-    private fun onAuthenticationFinished(isSuccessful: Boolean) {
-        _isUserAuthenticated.value = isSuccessful
-    }
-
     suspend fun onPasswordChecking(enteredPassword: String): Boolean =
-        checkIsPasswordCorrect.execute(enteredPassword).also {
-            onAuthenticationFinished(it)
-        }
+        checkIsPasswordCorrect.execute(enteredPassword)
 
     companion object {
         private const val EMPTY_STRING: String = ""

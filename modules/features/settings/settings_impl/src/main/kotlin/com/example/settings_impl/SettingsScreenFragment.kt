@@ -23,6 +23,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceManager
 import com.example.core_api.constants.*
 import com.example.core_api.contracts.AppWithFacade
+import com.example.core_api.contracts.UserAuthenticationContract
 import com.example.infrastructure.base_blueprints.preference_fragment.BasePreferenceFragment
 import com.example.settings_impl.di.SettingsScreenComponent
 import com.example.settings_impl.navigation.SettingsScreenRouter
@@ -41,7 +42,8 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
         .madeSettingsScreenComponent(
             (requireActivity().application as AppWithFacade).getFacade(),
             findNavController(),
-            lifecycle
+            lifecycle,
+            (requireActivity() as UserAuthenticationContract).getUserAuthenticatedStateFlow()
         ).inject(this)
 
     @Inject
@@ -218,15 +220,15 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
 
     private fun getDialogFragment(preference: Preference): DialogFragment =
         when (preference) {
-            is PasswordDialogPreference  -> {
+            is PasswordDialogPreference -> {
                 PasswordPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
-            is EditTextPreference        -> {
+            is EditTextPreference -> {
                 EditTextPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
-            is ListPreference            -> {
+            is ListPreference -> {
                 ListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
@@ -234,7 +236,7 @@ class SettingsScreenFragment : BasePreferenceFragment<SettingsScreenRouter,
                 MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             }
 
-            else                         -> {
+            else -> {
                 throw IllegalArgumentException(
                     ("Cannot display dialog for an unknown Preference type: "
                             + preference.javaClass.simpleName

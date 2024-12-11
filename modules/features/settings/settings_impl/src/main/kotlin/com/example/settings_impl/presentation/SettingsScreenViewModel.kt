@@ -8,6 +8,7 @@ import com.example.core_api.clean.domain.boundaries.use_cases.PersistPasswordInp
 import com.example.core_api.clean.domain.boundaries.use_cases.PersistThemeInputPort
 import com.example.infrastructure.mvvm_blueprints.BaseViewModel
 import com.example.settings_impl.navigation.SettingsScreenRouter
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class SettingsScreenViewModel(
@@ -15,10 +16,13 @@ class SettingsScreenViewModel(
     private val getPersistedPassword: GetPersistedPasswordInputPort,
     private val hashPassword: HashPasswordInputPort,
     private val getPersistedTheme: GetPersistedThemeInputPort,
-    private val persistTheme: PersistThemeInputPort
+    private val persistTheme: PersistThemeInputPort,
+    private val _isUserAuthenticated: MutableStateFlow<Boolean>
 ) : BaseViewModel<SettingsScreenRouter>() {
-    fun onPersistingPasswordString(key: String, value: String?) =
+    fun onPersistingPasswordString(key: String, value: String?) {
         persistPassword.execute(key, value)
+        _isUserAuthenticated.value = false
+    }
 
     fun onExtractingPersistedPasswordString(key: String, defValue: String?): String =
         getPersistedPassword.execute(key, defValue).orEmpty()

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.coroutineScope
+import com.example.core_api.contracts.UserAuthenticationContract
 import com.example.ui_kit.R
 import com.example.ui_kit.databinding.LayoutPasswordInputDialogBinding
 import kotlinx.coroutines.launch
@@ -69,9 +70,12 @@ class PasswordInputDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onDismiss(dialog: DialogInterface) {
         lifecycle.coroutineScope.launch {
             if (mWhichButtonClicked == DialogInterface.BUTTON_POSITIVE) {
-                if (!isPasswordCorrect.invoke(enteredPassword.toString())) {
+                val isCorrect: Boolean = isPasswordCorrect.invoke(enteredPassword.toString())
+                if (!isCorrect) {
                     informPasswordIsWrong()
                 }
+                (requireActivity() as UserAuthenticationContract)
+                    .getUserAuthenticatedStateFlow().value = isCorrect
             }
             super.onDismiss(dialog)
         }

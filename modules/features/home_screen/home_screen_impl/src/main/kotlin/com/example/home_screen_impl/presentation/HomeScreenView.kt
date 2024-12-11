@@ -1,6 +1,5 @@
 package com.example.home_screen_impl.presentation
 
-import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
@@ -36,7 +35,6 @@ class HomeScreenView @AssistedInject constructor(
         .show(fragmentManager, null)
 
     private fun configureScreen() {
-        //viewModel.onConfigureScreen()
         viewBinding.ideaPriorityIcon.apply {
             setBlueCornerVisible(true)
             setOnClickListener { viewModel.onPriorityIconClick() }
@@ -87,31 +85,21 @@ class HomeScreenView @AssistedInject constructor(
             }
         }
         lifecycle.coroutineScope.launch {
-            viewModel.isUserAuthenticated.flowWithLifecycle(
+            viewModel.isUserAuthenticated().flowWithLifecycle(
                 lifecycle = lifecycle,
                 minActiveState = Lifecycle.State.STARTED
             ).collect { isAuthenticated: Boolean ->
-                Log.i(
-                    "***",
-                    "${this@HomeScreenView.javaClass.simpleName} isAuthenticated = $isAuthenticated, " +
-                            "viewModel.isPasswordEnabled() = ${viewModel.isPasswordEnabled()}"
-                )
                 lockScreen(!isAuthenticated && viewModel.isPasswordEnabled())
             }
         }
     }
 
     private fun renderHeaderState(state: HomeScreenState) {
-        //lockScreen(state.isLocked)
         setPriority(state.entity.priority)
         setIdeaText(state.entity.ideaText)
     }
 
     private fun lockScreen(lock: Boolean) {
-        Log.i(
-            "***",
-            "${this@HomeScreenView.javaClass.simpleName} lockScreen(lock: Boolean) lock = $lock"
-        )
         viewBinding.apply {
             if (lock) {
                 ideasRecyclerView.visibility = View.GONE
@@ -135,7 +123,7 @@ class HomeScreenView @AssistedInject constructor(
                 viewBinding.ideaPriorityIcon.setPriority(priority.code)
             }
 
-            Priority.NONE                                -> {
+            Priority.NONE -> {
                 throw IllegalArgumentException("Priority must not be ${Priority.NONE.name}")
             }
         }

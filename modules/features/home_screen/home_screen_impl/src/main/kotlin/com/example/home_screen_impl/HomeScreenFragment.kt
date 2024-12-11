@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.example.core_api.contracts.AppWithFacade
+import com.example.core_api.contracts.UserAuthenticationContract
 import com.example.home_screen_impl.databinding.FragmentHomeScreenBinding
 import com.example.home_screen_impl.di.HomeScreenComponent
 import com.example.home_screen_impl.navigation.HomeScreenRouter
@@ -27,7 +30,8 @@ class HomeScreenFragment : BaseFragment<
         HomeScreenComponent.makeHomeScreenComponent(
             (requireActivity().application as AppWithFacade).getFacade(),
             findNavController(),
-            lifecycle
+            lifecycle,
+            (requireActivity() as UserAuthenticationContract).getUserAuthenticatedStateFlow()
         ).inject(this)
 
     @Inject
@@ -39,10 +43,12 @@ class HomeScreenFragment : BaseFragment<
     @Inject
     lateinit var viewFactory: HomeScreenViewFactory
     override lateinit var view: HomeScreenView
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createAndSetViewModel(HomeScreenViewModel::class.java)
+
     }
 
     override fun onCreateView(
@@ -54,11 +60,28 @@ class HomeScreenFragment : BaseFragment<
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().apply {
+            onBackPressedCallback = onBackPressedDispatcher.addCallback(this) { finish() }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        onBackPressedCallback.isEnabled = false
+    }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.editItem   -> view.onContextMenuEditItemClick()
+            R.id.editItem -> view.onContextMenuEditItemClick()
             R.id.deleteItem -> view.onContextMenuDeleteItemClick()
-            else            -> super.onContextItemSelected(item)
+            else -> super.onContextItemSelected(item)
         }
     }
 
